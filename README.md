@@ -1,3 +1,5 @@
+![novu image](./static/hero.png)
+
 # Novu Node Library
 
 [![npm shield](https://img.shields.io/npm/v/@fern-api/novu)](https://www.npmjs.com/package/@fern-api/novu)
