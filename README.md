@@ -1,12 +1,12 @@
-# {Company} Node Library
+# Novu Node Library
 
-[![npm shield](https://img.shields.io/npm/v/@fern-api/{company})](https://www.npmjs.com/package/@fern-api/{company})
+[![npm shield](https://img.shields.io/npm/v/@fern-api/novu)](https://www.npmjs.com/package/@fern-api/novu)
 
-The {Company} Node.js library provides access to the {Company} API from JavaScript/TypeScript.
+The Novu Node.js library provides access to the Novu API from JavaScript/TypeScript.
 
 ## Documentation
 
-API reference documentation is available [here](docs_url).
+API reference documentation is available [here](https://docs.novu.co/overview/introduction/).
 
 ## Usage
 
