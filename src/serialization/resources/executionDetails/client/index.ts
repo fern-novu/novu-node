@@ -1,1 +1,1 @@
-export * as executionDetailsControllerGetExecutionDetailsForNotification from "./executionDetailsControllerGetExecutionDetailsForNotification";
+export * as getAll from "./getAll";

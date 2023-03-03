@@ -17,14 +17,14 @@ export declare namespace InboundParse {
 export class InboundParse {
     constructor(private readonly options: InboundParse.Options) {}
 
-    public async inboundParseControllerGetMxRecordStatus(): Promise<Novu.GetMxRecordResponseDto[]> {
+    public async getMxRecord(): Promise<Novu.GetMxRecordResponseDto[]> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/inbound-parse/mx/status"),
             method: "GET",
         });
         if (_response.ok) {
-            return await serializers.inboundParse.inboundParseControllerGetMxRecordStatus.Response.parseOrThrow(
-                _response.body as serializers.inboundParse.inboundParseControllerGetMxRecordStatus.Response.Raw,
+            return await serializers.inboundParse.getMxRecord.Response.parseOrThrow(
+                _response.body as serializers.inboundParse.getMxRecord.Response.Raw,
                 { allowUnknownKeys: true }
             );
         }

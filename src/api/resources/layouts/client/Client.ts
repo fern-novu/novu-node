@@ -20,7 +20,7 @@ export class Layouts {
     /**
      * Returns a list of layouts that can be paginated using the `page` query parameter and filtered by the environment where it is executed from the organization the user belongs to.
      */
-    public async layoutsControllerFilterLayouts(
+    public async filter(
         request: Novu.LayoutsControllerFilterLayoutsRequest = {}
     ): Promise<Novu.FilterLayoutsResponseDto> {
         const { page, pageSize, sortBy } = request;
@@ -74,7 +74,7 @@ export class Layouts {
     /**
      * Create a layout
      */
-    public async layoutsControllerCreateLayout(request: Novu.CreateLayoutRequestDto): Promise<void> {
+    public async create(request: Novu.CreateLayoutRequestDto): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/layouts"),
             method: "POST",
@@ -109,7 +109,7 @@ export class Layouts {
     /**
      * Get a layout by its ID
      */
-    public async layoutsControllerGetLayout(layoutId: string): Promise<Novu.GetLayoutResponseDto> {
+    public async get(layoutId: string): Promise<Novu.GetLayoutResponseDto> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/layouts/${layoutId}`),
             method: "GET",
@@ -146,7 +146,7 @@ export class Layouts {
     /**
      * Execute a soft delete of a layout given a certain ID.
      */
-    public async layoutsControllerDeleteLayout(layoutId: string): Promise<void> {
+    public async delete(layoutId: string): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/layouts/${layoutId}`),
             method: "DELETE",
@@ -180,10 +180,7 @@ export class Layouts {
     /**
      * Update the name, content and variables of a layout. Also change it to be default or no.
      */
-    public async layoutsControllerUpdateLayout(
-        layoutId: string,
-        request: Novu.UpdateLayoutRequestDto
-    ): Promise<Novu.UpdateLayoutResponseDto> {
+    public async update(layoutId: string, request: Novu.UpdateLayoutRequestDto): Promise<Novu.UpdateLayoutResponseDto> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/layouts/${layoutId}`),
             method: "PATCH",
@@ -221,7 +218,7 @@ export class Layouts {
     /**
      * Sets the default layout for the environment and updates to non default to the existing default layout (if any).
      */
-    public async layoutsControllerSetDefaultLayout(layoutId: string): Promise<void> {
+    public async setDefault(layoutId: string): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/layouts/${layoutId}/default`),
             method: "POST",

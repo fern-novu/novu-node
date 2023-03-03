@@ -20,7 +20,7 @@ export class Subscribers {
     /**
      * Returns a list of subscribers, could paginated using the `page` query parameter
      */
-    public async subscribersControllerGetSubscribers(
+    public async getAll(
         request: Novu.SubscribersControllerGetSubscribersRequest = {}
     ): Promise<Novu.SubscribersResponseDto> {
         const { page } = request;
@@ -66,7 +66,7 @@ export class Subscribers {
     /**
      * Creates a subscriber entity, in the Novu platform. The subscriber will be later used to receive notifications, and access notification feeds. Communication credentials such as email, phone number, and 3 rd party credentials i.e slack tokens could be later associated to this entity.
      */
-    public async subscribersControllerCreateSubscriber(request: Novu.CreateSubscriberRequestDto): Promise<void> {
+    public async create(request: Novu.CreateSubscriberRequestDto): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/subscribers"),
             method: "POST",
@@ -101,7 +101,7 @@ export class Subscribers {
     /**
      * Get subscriber by your internal id used to identify the subscriber
      */
-    public async subscribersControllerGetSubscriber(subscriberId: string): Promise<Novu.SubscriberResponseDto> {
+    public async get(subscriberId: string): Promise<Novu.SubscriberResponseDto> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}`),
             method: "GET",
@@ -138,7 +138,7 @@ export class Subscribers {
     /**
      * Used to update the subscriber entity with new information
      */
-    public async subscribersControllerUpdateSubscriber(
+    public async update(
         subscriberId: string,
         request: Novu.UpdateSubscriberRequestDto
     ): Promise<Novu.SubscriberResponseDto> {
@@ -179,9 +179,7 @@ export class Subscribers {
     /**
      * Deletes a subscriber entity from the Novu platform
      */
-    public async subscribersControllerRemoveSubscriber(
-        subscriberId: string
-    ): Promise<Novu.DeleteSubscriberResponseDto> {
+    public async delete(subscriberId: string): Promise<Novu.DeleteSubscriberResponseDto> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}`),
             method: "DELETE",
@@ -218,7 +216,7 @@ export class Subscribers {
     /**
      * Subscriber credentials associated to the delivery methods such as slack and push tokens.
      */
-    public async subscribersControllerUpdateSubscriberChannel(
+    public async updateCredentials(
         subscriberId: string,
         request: Novu.UpdateSubscriberChannelRequestDto
     ): Promise<Novu.SubscriberResponseDto> {
@@ -259,7 +257,7 @@ export class Subscribers {
     /**
      * Used to update the subscriber isOnline flag.
      */
-    public async subscribersControllerUpdateSubscriberOnlineFlag(
+    public async updateOnlineStatus(
         subscriberId: string,
         request: Novu.UpdateSubscriberOnlineFlagRequestDto
     ): Promise<Novu.SubscriberResponseDto> {
@@ -297,16 +295,14 @@ export class Subscribers {
         }
     }
 
-    public async subscribersControllerGetSubscriberPreference(
-        subscriberId: string
-    ): Promise<Novu.UpdateSubscriberPreferenceResponseDto[]> {
+    public async getPreferences(subscriberId: string): Promise<Novu.UpdateSubscriberPreferenceResponseDto[]> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}/preferences`),
             method: "GET",
         });
         if (_response.ok) {
-            return await serializers.subscribers.subscribersControllerGetSubscriberPreference.Response.parseOrThrow(
-                _response.body as serializers.subscribers.subscribersControllerGetSubscriberPreference.Response.Raw,
+            return await serializers.subscribers.getPreferences.Response.parseOrThrow(
+                _response.body as serializers.subscribers.getPreferences.Response.Raw,
                 { allowUnknownKeys: true }
             );
         }
@@ -333,7 +329,7 @@ export class Subscribers {
         }
     }
 
-    public async subscribersControllerUpdateSubscriberPreference(
+    public async updatePreferences(
         subscriberId: string,
         templateId: string,
         request: Novu.UpdateSubscriberPreferenceRequestDto
@@ -372,7 +368,7 @@ export class Subscribers {
         }
     }
 
-    public async subscribersControllerGetNotificationsFeed(
+    public async getFeed(
         subscriberId: string,
         request: Novu.SubscribersControllerGetNotificationsFeedRequest
     ): Promise<Novu.MessagesResponseDto> {
@@ -421,7 +417,7 @@ export class Subscribers {
         }
     }
 
-    public async subscribersControllerGetUnseenCount(
+    public async getUnseenNotificationCount(
         subscriberId: string,
         request: Novu.SubscribersControllerGetUnseenCountRequest
     ): Promise<Novu.UnseenCountResponse> {
@@ -465,7 +461,7 @@ export class Subscribers {
     /**
      * This endpoint is deprecated please address /:subscriberId/messages/markAs instead
      */
-    public async subscribersControllerMarkMessageAsSeen(messageId: string, subscriberId: string): Promise<void> {
+    public async markMessageSeen(messageId: string, subscriberId: string): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}/messages/${messageId}/seen`),
             method: "POST",
@@ -496,10 +492,7 @@ export class Subscribers {
         }
     }
 
-    public async subscribersControllerMarkMessageAs(
-        subscriberId: string,
-        request: Novu.MarkMessageAsRequestDto
-    ): Promise<void> {
+    public async markAllMessagesSeen(subscriberId: string, request: Novu.MarkMessageAsRequestDto): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}/messages/markAs`),
             method: "POST",
@@ -531,11 +524,7 @@ export class Subscribers {
         }
     }
 
-    public async subscribersControllerMarkActionAsSeen(
-        messageId: string,
-        type: string,
-        subscriberId: string
-    ): Promise<void> {
+    public async markMessageActionSeen(messageId: string, type: string, subscriberId: string): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(
                 this.options.environment,

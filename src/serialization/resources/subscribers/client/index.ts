@@ -1,1 +1,1 @@
-export * as subscribersControllerGetSubscriberPreference from "./subscribersControllerGetSubscriberPreference";
+export * as getPreferences from "./getPreferences";

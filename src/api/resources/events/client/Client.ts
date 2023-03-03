@@ -24,7 +24,7 @@ export class Events {
      *     Additional information can be passed according the body interface below.
      *
      */
-    public async eventsControllerTrackEvent(request: Novu.TriggerEventRequestDto): Promise<void> {
+    public async trigger(request: Novu.TriggerEventRequestDto): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/events/trigger"),
             method: "POST",
@@ -62,7 +62,7 @@ export class Events {
      *       The bulk API is limited to 100 events per request.
      *
      */
-    public async eventsControllerTriggerBulkEvents(request: Novu.BulkTriggerEventDto): Promise<void> {
+    public async triggerBulk(request: Novu.BulkTriggerEventDto): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/events/trigger/bulk"),
             method: "POST",
@@ -98,7 +98,7 @@ export class Events {
      * Trigger a broadcast event to all existing subscribers, could be used to send announcements, etc.
      *       In the future could be used to trigger events to a subset of subscribers based on defined filters.
      */
-    public async eventsControllerTrackEventToAll(request: Novu.TriggerEventToAllRequestDto): Promise<void> {
+    public async broadcastEvent(request: Novu.TriggerEventToAllRequestDto): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/events/trigger/broadcast"),
             method: "POST",
@@ -136,14 +136,14 @@ export class Events {
      *      will cancel any active or pending workflows. This is useful to cancel active digests, delays etc...
      *
      */
-    public async eventsControllerCancelDelayed(transactionId: string): Promise<boolean> {
+    public async cancelEvent(transactionId: string): Promise<boolean> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/events/trigger/${transactionId}`),
             method: "DELETE",
         });
         if (_response.ok) {
-            return await serializers.events.eventsControllerCancelDelayed.Response.parseOrThrow(
-                _response.body as serializers.events.eventsControllerCancelDelayed.Response.Raw,
+            return await serializers.events.cancelEvent.Response.parseOrThrow(
+                _response.body as serializers.events.cancelEvent.Response.Raw,
                 { allowUnknownKeys: true }
             );
         }

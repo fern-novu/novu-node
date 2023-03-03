@@ -7,12 +7,12 @@ import { Novu } from "@fern-api/novu";
 import * as core from "../../../../core";
 
 export const Response: core.serialization.Schema<
-    serializers.executionDetails.executionDetailsControllerGetExecutionDetailsForNotification.Response.Raw,
-    Novu.ExecutionDetailsResponseDto[]
+    serializers.integrations.delete.Response.Raw,
+    Novu.IntegrationResponseDto[]
 > = core.serialization.list(
-    core.serialization.lazyObject(async () => (await import("../../..")).ExecutionDetailsResponseDto)
+    core.serialization.lazyObject(async () => (await import("../../..")).IntegrationResponseDto)
 );
 
 export declare namespace Response {
-    type Raw = serializers.ExecutionDetailsResponseDto.Raw[];
+    type Raw = serializers.IntegrationResponseDto.Raw[];
 }

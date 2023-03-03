@@ -17,9 +17,7 @@ export declare namespace Changes {
 export class Changes {
     constructor(private readonly options: Changes.Options) {}
 
-    public async changesControllerGetChanges(
-        request: Novu.ChangesControllerGetChangesRequest
-    ): Promise<Novu.ChangesResponseDto> {
+    public async getAll(request: Novu.ChangesControllerGetChangesRequest): Promise<Novu.ChangesResponseDto> {
         const { page, limit, promoted } = request;
         const _queryParams = new URLSearchParams();
         if (page != null) {
@@ -65,14 +63,14 @@ export class Changes {
         }
     }
 
-    public async changesControllerGetChangesCount(): Promise<number> {
+    public async getCount(): Promise<number> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/changes/count"),
             method: "GET",
         });
         if (_response.ok) {
-            return await serializers.changes.changesControllerGetChangesCount.Response.parseOrThrow(
-                _response.body as serializers.changes.changesControllerGetChangesCount.Response.Raw,
+            return await serializers.changes.getCount.Response.parseOrThrow(
+                _response.body as serializers.changes.getCount.Response.Raw,
                 { allowUnknownKeys: true }
             );
         }
@@ -99,7 +97,7 @@ export class Changes {
         }
     }
 
-    public async changesControllerBulkApplyDiff(): Promise<void> {
+    public async applyAll(): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/changes/bulk/apply"),
             method: "POST",
@@ -130,7 +128,7 @@ export class Changes {
         }
     }
 
-    public async changesControllerApplyDiff(changeId: string): Promise<void> {
+    public async apply(changeId: string): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/changes/${changeId}/apply`),
             method: "POST",

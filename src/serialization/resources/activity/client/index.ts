@@ -1,1 +1,1 @@
-export * as activityControllerGetActivityGraphStats from "./activityControllerGetActivityGraphStats";
+export * as getActivityGraphStats from "./getActivityGraphStats";

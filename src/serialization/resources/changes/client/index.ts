@@ -1,1 +1,1 @@
-export * as changesControllerGetChangesCount from "./changesControllerGetChangesCount";
+export * as getCount from "./getCount";

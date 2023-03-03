@@ -17,14 +17,14 @@ export declare namespace Integrations {
 export class Integrations {
     constructor(private readonly options: Integrations.Options) {}
 
-    public async integrationsControllerGetIntegrations(): Promise<Novu.IntegrationResponseDto[]> {
+    public async getAll(): Promise<Novu.IntegrationResponseDto[]> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/integrations"),
             method: "GET",
         });
         if (_response.ok) {
-            return await serializers.integrations.integrationsControllerGetIntegrations.Response.parseOrThrow(
-                _response.body as serializers.integrations.integrationsControllerGetIntegrations.Response.Raw,
+            return await serializers.integrations.getAll.Response.parseOrThrow(
+                _response.body as serializers.integrations.getAll.Response.Raw,
                 { allowUnknownKeys: true }
             );
         }
@@ -51,7 +51,7 @@ export class Integrations {
         }
     }
 
-    public async integrationsControllerCreateIntegration(request: Novu.CreateIntegrationRequestDto): Promise<void> {
+    public async create(request: Novu.CreateIntegrationRequestDto): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/integrations"),
             method: "POST",
@@ -83,14 +83,14 @@ export class Integrations {
         }
     }
 
-    public async integrationsControllerGetActiveIntegrations(): Promise<Novu.IntegrationResponseDto[]> {
+    public async getActive(): Promise<Novu.IntegrationResponseDto[]> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/integrations/active"),
             method: "GET",
         });
         if (_response.ok) {
-            return await serializers.integrations.integrationsControllerGetActiveIntegrations.Response.parseOrThrow(
-                _response.body as serializers.integrations.integrationsControllerGetActiveIntegrations.Response.Raw,
+            return await serializers.integrations.getActive.Response.parseOrThrow(
+                _response.body as serializers.integrations.getActive.Response.Raw,
                 { allowUnknownKeys: true }
             );
         }
@@ -117,7 +117,7 @@ export class Integrations {
         }
     }
 
-    public async integrationsControllerGetWebhookSupportStatus(providerId: string): Promise<void> {
+    public async getWebhookSupportStatus(providerId: string): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/integrations/webhook/provider/${providerId}/status`),
             method: "GET",
@@ -148,7 +148,7 @@ export class Integrations {
         }
     }
 
-    public async integrationsControllerUpdateIntegrationById(
+    public async update(
         integrationId: string,
         request: Novu.UpdateIntegrationRequestDto
     ): Promise<Novu.IntegrationResponseDto> {
@@ -186,16 +186,14 @@ export class Integrations {
         }
     }
 
-    public async integrationsControllerRemoveIntegration(
-        integrationId: string
-    ): Promise<Novu.IntegrationResponseDto[]> {
+    public async delete(integrationId: string): Promise<Novu.IntegrationResponseDto[]> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/integrations/${integrationId}`),
             method: "DELETE",
         });
         if (_response.ok) {
-            return await serializers.integrations.integrationsControllerRemoveIntegration.Response.parseOrThrow(
-                _response.body as serializers.integrations.integrationsControllerRemoveIntegration.Response.Raw,
+            return await serializers.integrations.delete.Response.parseOrThrow(
+                _response.body as serializers.integrations.delete.Response.Raw,
                 { allowUnknownKeys: true }
             );
         }
@@ -222,7 +220,7 @@ export class Integrations {
         }
     }
 
-    public async integrationsControllerGetProviderLimit(channelType: string): Promise<void> {
+    public async getLimit(channelType: string): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/integrations/${channelType}/limit`),
             method: "GET",
@@ -253,7 +251,7 @@ export class Integrations {
         }
     }
 
-    public async integrationsControllerGetInAppActivated(): Promise<void> {
+    public async getInAppStatus(): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/integrations/in-app/status"),
             method: "GET",

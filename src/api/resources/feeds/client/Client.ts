@@ -17,14 +17,14 @@ export declare namespace Feeds {
 export class Feeds {
     constructor(private readonly options: Feeds.Options) {}
 
-    public async feedsControllerGetFeeds(): Promise<Novu.FeedResponseDto[]> {
+    public async getAll(): Promise<Novu.FeedResponseDto[]> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/feeds"),
             method: "GET",
         });
         if (_response.ok) {
-            return await serializers.feeds.feedsControllerGetFeeds.Response.parseOrThrow(
-                _response.body as serializers.feeds.feedsControllerGetFeeds.Response.Raw,
+            return await serializers.feeds.getAll.Response.parseOrThrow(
+                _response.body as serializers.feeds.getAll.Response.Raw,
                 { allowUnknownKeys: true }
             );
         }
@@ -51,7 +51,7 @@ export class Feeds {
         }
     }
 
-    public async feedsControllerCreateFeed(request: Novu.CreateFeedRequestDto): Promise<void> {
+    public async create(request: Novu.CreateFeedRequestDto): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/feeds"),
             method: "POST",
@@ -83,14 +83,14 @@ export class Feeds {
         }
     }
 
-    public async feedsControllerDeleteFeedById(feedId: string): Promise<Novu.FeedResponseDto[]> {
+    public async delete(feedId: string): Promise<Novu.FeedResponseDto[]> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/feeds/${feedId}`),
             method: "DELETE",
         });
         if (_response.ok) {
-            return await serializers.feeds.feedsControllerDeleteFeedById.Response.parseOrThrow(
-                _response.body as serializers.feeds.feedsControllerDeleteFeedById.Response.Raw,
+            return await serializers.feeds.delete.Response.parseOrThrow(
+                _response.body as serializers.feeds.delete.Response.Raw,
                 { allowUnknownKeys: true }
             );
         }

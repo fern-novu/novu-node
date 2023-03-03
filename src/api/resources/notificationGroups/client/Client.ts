@@ -17,14 +17,14 @@ export declare namespace NotificationGroups {
 export class NotificationGroups {
     constructor(private readonly options: NotificationGroups.Options) {}
 
-    public async notificationGroupsControllerGetNotificationGroups(): Promise<Novu.NotificationGroupResponseDto[]> {
+    public async getAll(): Promise<Novu.NotificationGroupResponseDto[]> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/notification-groups"),
             method: "GET",
         });
         if (_response.ok) {
-            return await serializers.notificationGroups.notificationGroupsControllerGetNotificationGroups.Response.parseOrThrow(
-                _response.body as serializers.notificationGroups.notificationGroupsControllerGetNotificationGroups.Response.Raw,
+            return await serializers.notificationGroups.getAll.Response.parseOrThrow(
+                _response.body as serializers.notificationGroups.getAll.Response.Raw,
                 { allowUnknownKeys: true }
             );
         }
@@ -51,9 +51,7 @@ export class NotificationGroups {
         }
     }
 
-    public async notificationGroupsControllerCreateNotificationGroup(
-        request: Novu.CreateNotificationGroupRequestDto
-    ): Promise<void> {
+    public async create(request: Novu.CreateNotificationGroupRequestDto): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/notification-groups"),
             method: "POST",

@@ -17,7 +17,7 @@ export declare namespace Notification {
 export class Notification {
     constructor(private readonly options: Notification.Options) {}
 
-    public async notificationsControllerGetNotifications(
+    public async getAll(
         request: Novu.NotificationsControllerGetNotificationsRequest
     ): Promise<Novu.ActivitiesResponseDto> {
         const { search, page, transactionId } = request;
@@ -65,7 +65,7 @@ export class Notification {
         }
     }
 
-    public async notificationsControllerGetActivityStats(): Promise<Novu.ActivityStatsResponseDto> {
+    public async getNotificationStats(): Promise<Novu.ActivityStatsResponseDto> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/notifications/stats"),
             method: "GET",
@@ -99,7 +99,7 @@ export class Notification {
         }
     }
 
-    public async notificationsControllerGetActivityGraphStats(
+    public async getNotificationGraphStats(
         request: Novu.NotificationsControllerGetActivityGraphStatsRequest = {}
     ): Promise<Novu.ActivityGraphStatesResponse[]> {
         const { days } = request;
@@ -114,8 +114,8 @@ export class Notification {
             queryParameters: _queryParams,
         });
         if (_response.ok) {
-            return await serializers.notification.notificationsControllerGetActivityGraphStats.Response.parseOrThrow(
-                _response.body as serializers.notification.notificationsControllerGetActivityGraphStats.Response.Raw,
+            return await serializers.notification.getNotificationGraphStats.Response.parseOrThrow(
+                _response.body as serializers.notification.getNotificationGraphStats.Response.Raw,
                 { allowUnknownKeys: true }
             );
         }
@@ -142,9 +142,7 @@ export class Notification {
         }
     }
 
-    public async notificationsControllerGetActivity(
-        notificationId: string
-    ): Promise<Novu.ActivityNotificationResponseDto> {
+    public async get(notificationId: string): Promise<Novu.ActivityNotificationResponseDto> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/notifications/${notificationId}`),
             method: "GET",

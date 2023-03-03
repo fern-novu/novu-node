@@ -1,3 +1,3 @@
-export * as environmentsControllerGetMyEnvironments from "./environmentsControllerGetMyEnvironments";
-export * as environmentsControllerGetOrganizationApiKeys from "./environmentsControllerGetOrganizationApiKeys";
-export * as environmentsControllerRegenerateOrganizationApiKeys from "./environmentsControllerRegenerateOrganizationApiKeys";
+export * as getAll from "./getAll";
+export * as getApiKeys from "./getApiKeys";
+export * as regenerateApiKeys from "./regenerateApiKeys";

@@ -1,3 +1,3 @@
-export * as integrationsControllerGetIntegrations from "./integrationsControllerGetIntegrations";
-export * as integrationsControllerGetActiveIntegrations from "./integrationsControllerGetActiveIntegrations";
-export * as integrationsControllerRemoveIntegration from "./integrationsControllerRemoveIntegration";
+export * as getAll from "./getAll";
+export * as getActive from "./getActive";
+export * as delete from "./delete";

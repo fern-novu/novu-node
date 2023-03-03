@@ -17,7 +17,7 @@ export declare namespace ExecutionDetails {
 export class ExecutionDetails {
     constructor(private readonly options: ExecutionDetails.Options) {}
 
-    public async executionDetailsControllerGetExecutionDetailsForNotification(
+    public async getAll(
         request: Novu.ExecutionDetailsControllerGetExecutionDetailsForNotificationRequest
     ): Promise<Novu.ExecutionDetailsResponseDto[]> {
         const { notificationId, subscriberId } = request;
@@ -30,8 +30,8 @@ export class ExecutionDetails {
             queryParameters: _queryParams,
         });
         if (_response.ok) {
-            return await serializers.executionDetails.executionDetailsControllerGetExecutionDetailsForNotification.Response.parseOrThrow(
-                _response.body as serializers.executionDetails.executionDetailsControllerGetExecutionDetailsForNotification.Response.Raw,
+            return await serializers.executionDetails.getAll.Response.parseOrThrow(
+                _response.body as serializers.executionDetails.getAll.Response.Raw,
                 { allowUnknownKeys: true }
             );
         }

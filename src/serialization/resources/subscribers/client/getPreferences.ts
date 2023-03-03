@@ -7,7 +7,7 @@ import { Novu } from "@fern-api/novu";
 import * as core from "../../../../core";
 
 export const Response: core.serialization.Schema<
-    serializers.subscribers.subscribersControllerGetSubscriberPreference.Response.Raw,
+    serializers.subscribers.getPreferences.Response.Raw,
     Novu.UpdateSubscriberPreferenceResponseDto[]
 > = core.serialization.list(
     core.serialization.lazyObject(async () => (await import("../../..")).UpdateSubscriberPreferenceResponseDto)

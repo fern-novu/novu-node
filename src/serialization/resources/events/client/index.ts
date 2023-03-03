@@ -1,1 +1,1 @@
-export * as eventsControllerCancelDelayed from "./eventsControllerCancelDelayed";
+export * as cancelEvent from "./cancelEvent";

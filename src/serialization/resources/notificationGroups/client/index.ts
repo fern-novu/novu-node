@@ -1,1 +1,1 @@
-export * as notificationGroupsControllerGetNotificationGroups from "./notificationGroupsControllerGetNotificationGroups";
+export * as getAll from "./getAll";

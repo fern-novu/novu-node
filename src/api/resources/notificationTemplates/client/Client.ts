@@ -17,7 +17,7 @@ export declare namespace NotificationTemplates {
 export class NotificationTemplates {
     constructor(private readonly options: NotificationTemplates.Options) {}
 
-    public async notificationTemplateControllerGetNotificationTemplates(
+    public async getAll(
         request: Novu.NotificationTemplateControllerGetNotificationTemplatesRequest = {}
     ): Promise<Novu.NotificationTemplateResponse> {
         const { page, limit } = request;
@@ -64,9 +64,7 @@ export class NotificationTemplates {
         }
     }
 
-    public async notificationTemplateControllerCreateNotificationTemplates(
-        request: Novu.CreateNotificationTemplateRequestDto
-    ): Promise<void> {
+    public async createTemplate(request: Novu.CreateNotificationTemplateRequestDto): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/notification-templates"),
             method: "POST",
@@ -98,9 +96,7 @@ export class NotificationTemplates {
         }
     }
 
-    public async notificationTemplateControllerGetNotificationTemplateById(
-        templateId: string
-    ): Promise<Novu.NotificationTemplateResponse> {
+    public async get(templateId: string): Promise<Novu.NotificationTemplateResponse> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/notification-templates/${templateId}`),
             method: "GET",
@@ -134,7 +130,7 @@ export class NotificationTemplates {
         }
     }
 
-    public async notificationTemplateControllerUpdateTemplateById(
+    public async update(
         templateId: string,
         request: Novu.UpdateNotificationTemplateRequestDto
     ): Promise<Novu.NotificationTemplateResponse> {
@@ -172,14 +168,14 @@ export class NotificationTemplates {
         }
     }
 
-    public async notificationTemplateControllerDeleteTemplateById(templateId: string): Promise<boolean> {
+    public async delete(templateId: string): Promise<boolean> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/notification-templates/${templateId}`),
             method: "DELETE",
         });
         if (_response.ok) {
-            return await serializers.notificationTemplates.notificationTemplateControllerDeleteTemplateById.Response.parseOrThrow(
-                _response.body as serializers.notificationTemplates.notificationTemplateControllerDeleteTemplateById.Response.Raw,
+            return await serializers.notificationTemplates.delete.Response.parseOrThrow(
+                _response.body as serializers.notificationTemplates.delete.Response.Raw,
                 { allowUnknownKeys: true }
             );
         }
@@ -206,7 +202,7 @@ export class NotificationTemplates {
         }
     }
 
-    public async notificationTemplateControllerGetNotificationTemplateBlueprintById(templateId: string): Promise<void> {
+    public async getBlueprint(templateId: string): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/notification-templates/${templateId}/blueprint`),
             method: "GET",
@@ -237,9 +233,7 @@ export class NotificationTemplates {
         }
     }
 
-    public async notificationTemplateControllerCreateNotificationTemplateFromBlueprintById(
-        templateId: string
-    ): Promise<void> {
+    public async createFromBlueprint(templateId: string): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/notification-templates/${templateId}/blueprint`),
             method: "POST",
@@ -270,7 +264,7 @@ export class NotificationTemplates {
         }
     }
 
-    public async notificationTemplateControllerChangeActiveStatus(
+    public async updateTemplateStatus(
         templateId: string,
         request: Novu.ChangeTemplateStatusRequestDto
     ): Promise<Novu.NotificationTemplateResponse> {

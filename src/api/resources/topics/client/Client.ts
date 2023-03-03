@@ -20,9 +20,7 @@ export class Topics {
     /**
      * Returns a list of topics that can be paginated using the `page` query parameter and filtered by the topic key with the `key` query parameter
      */
-    public async topicsControllerFilterTopics(
-        request: Novu.TopicsControllerFilterTopicsRequest = {}
-    ): Promise<Novu.FilterTopicsResponseDto> {
+    public async filter(request: Novu.TopicsControllerFilterTopicsRequest = {}): Promise<Novu.FilterTopicsResponseDto> {
         const { page, pageSize, key } = request;
         const _queryParams = new URLSearchParams();
         if (page != null) {
@@ -74,7 +72,7 @@ export class Topics {
     /**
      * Create a topic
      */
-    public async topicsControllerCreateTopic(request: Novu.CreateTopicRequestDto): Promise<void> {
+    public async create(request: Novu.CreateTopicRequestDto): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/topics"),
             method: "POST",
@@ -109,10 +107,7 @@ export class Topics {
     /**
      * Add subscribers to a topic by key
      */
-    public async topicsControllerAddSubscribers(
-        topicKey: string,
-        request: Novu.AddSubscribersRequestDto
-    ): Promise<void> {
+    public async addSubscribers(topicKey: string, request: Novu.AddSubscribersRequestDto): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/topics/${topicKey}/subscribers`),
             method: "POST",
@@ -147,10 +142,7 @@ export class Topics {
     /**
      * Remove subscribers from a topic
      */
-    public async topicsControllerRemoveSubscribers(
-        topicKey: string,
-        request: Novu.RemoveSubscribersRequestDto
-    ): Promise<void> {
+    public async removeSubscibers(topicKey: string, request: Novu.RemoveSubscribersRequestDto): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/topics/${topicKey}/subscribers/removal`),
             method: "POST",
@@ -185,7 +177,7 @@ export class Topics {
     /**
      * Get a topic by its topic key
      */
-    public async topicsControllerGetTopic(topicKey: string): Promise<Novu.GetTopicResponseDto> {
+    public async getTopicByKey(topicKey: string): Promise<Novu.GetTopicResponseDto> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/topics/${topicKey}`),
             method: "GET",
@@ -222,10 +214,7 @@ export class Topics {
     /**
      * Rename a topic by providing a new name
      */
-    public async topicsControllerRenameTopic(
-        topicKey: string,
-        request: Novu.RenameTopicRequestDto
-    ): Promise<Novu.RenameTopicResponseDto> {
+    public async rename(topicKey: string, request: Novu.RenameTopicRequestDto): Promise<Novu.RenameTopicResponseDto> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/topics/${topicKey}`),
             method: "PATCH",

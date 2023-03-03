@@ -5,11 +5,9 @@
 import * as serializers from "../../..";
 import * as core from "../../../../core";
 
-export const Response: core.serialization.Schema<
-    serializers.events.eventsControllerCancelDelayed.Response.Raw,
-    boolean
-> = core.serialization.boolean();
+export const Response: core.serialization.Schema<serializers.changes.getCount.Response.Raw, number> =
+    core.serialization.number();
 
 export declare namespace Response {
-    type Raw = boolean;
+    type Raw = number;
 }

@@ -1,1 +1,1 @@
-export * as inboundParseControllerGetMxRecordStatus from "./inboundParseControllerGetMxRecordStatus";
+export * as getMxRecord from "./getMxRecord";

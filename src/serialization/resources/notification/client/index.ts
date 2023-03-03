@@ -1,1 +1,1 @@
-export * as notificationsControllerGetActivityGraphStats from "./notificationsControllerGetActivityGraphStats";
+export * as getNotificationGraphStats from "./getNotificationGraphStats";

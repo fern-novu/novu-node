@@ -7,7 +7,7 @@ import { Novu } from "@fern-api/novu";
 import * as core from "../../../../core";
 
 export const Response: core.serialization.Schema<
-    serializers.notification.notificationsControllerGetActivityGraphStats.Response.Raw,
+    serializers.activity.getActivityGraphStats.Response.Raw,
     Novu.ActivityGraphStatesResponse[]
 > = core.serialization.list(
     core.serialization.lazyObject(async () => (await import("../../..")).ActivityGraphStatesResponse)

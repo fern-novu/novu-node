@@ -5,10 +5,8 @@
 import * as serializers from "../../..";
 import * as core from "../../../../core";
 
-export const Response: core.serialization.Schema<
-    serializers.notificationTemplates.notificationTemplateControllerDeleteTemplateById.Response.Raw,
-    boolean
-> = core.serialization.boolean();
+export const Response: core.serialization.Schema<serializers.notificationTemplates.delete.Response.Raw, boolean> =
+    core.serialization.boolean();
 
 export declare namespace Response {
     type Raw = boolean;

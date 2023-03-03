@@ -20,9 +20,7 @@ export class Messages {
     /**
      * Returns a list of messages, could paginate using the `page` query parameter
      */
-    public async messagesControllerGetMessages(
-        request: Novu.MessagesControllerGetMessagesRequest = {}
-    ): Promise<Novu.ActivitiesResponseDto> {
+    public async getAll(request: Novu.MessagesControllerGetMessagesRequest = {}): Promise<Novu.ActivitiesResponseDto> {
         const { channel, subscriberId, limit, page } = request;
         const _queryParams = new URLSearchParams();
         if (channel != null) {
@@ -78,7 +76,7 @@ export class Messages {
     /**
      * Deletes a message entity from the Novu platform
      */
-    public async messagesControllerDeleteMessage(messageId: string): Promise<Novu.DeleteMessageResponseDto> {
+    public async delete(messageId: string): Promise<Novu.DeleteMessageResponseDto> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/messages/${messageId}`),
             method: "DELETE",

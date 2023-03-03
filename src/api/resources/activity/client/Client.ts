@@ -17,9 +17,7 @@ export declare namespace Activity {
 export class Activity {
     constructor(private readonly options: Activity.Options) {}
 
-    public async activityControllerGetActivityFeed(
-        request: Novu.ActivityControllerGetActivityFeedRequest
-    ): Promise<Novu.ActivitiesResponseDto> {
+    public async getFeed(request: Novu.ActivityControllerGetActivityFeedRequest): Promise<Novu.ActivitiesResponseDto> {
         const { search, page, transactionId } = request;
         const _queryParams = new URLSearchParams();
         _queryParams.append("search", search);
@@ -65,7 +63,7 @@ export class Activity {
         }
     }
 
-    public async activityControllerGetActivityStats(): Promise<Novu.ActivityStatsResponseDto> {
+    public async getActivityStats(): Promise<Novu.ActivityStatsResponseDto> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/activity/stats"),
             method: "GET",
@@ -99,7 +97,7 @@ export class Activity {
         }
     }
 
-    public async activityControllerGetActivityGraphStats(
+    public async getActivityGraphStats(
         request: Novu.ActivityControllerGetActivityGraphStatsRequest = {}
     ): Promise<Novu.ActivityGraphStatesResponse[]> {
         const { days } = request;
@@ -114,8 +112,8 @@ export class Activity {
             queryParameters: _queryParams,
         });
         if (_response.ok) {
-            return await serializers.activity.activityControllerGetActivityGraphStats.Response.parseOrThrow(
-                _response.body as serializers.activity.activityControllerGetActivityGraphStats.Response.Raw,
+            return await serializers.activity.getActivityGraphStats.Response.parseOrThrow(
+                _response.body as serializers.activity.getActivityGraphStats.Response.Raw,
                 { allowUnknownKeys: true }
             );
         }

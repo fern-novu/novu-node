@@ -1,1 +1,1 @@
-export * as notificationTemplateControllerDeleteTemplateById from "./notificationTemplateControllerDeleteTemplateById";
+export * as delete from "./delete";

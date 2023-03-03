@@ -17,7 +17,7 @@ export declare namespace Environments {
 export class Environments {
     constructor(private readonly options: Environments.Options) {}
 
-    public async environmentsControllerGetCurrentEnvironment(): Promise<Novu.EnvironmentResponseDto> {
+    public async getCurrent(): Promise<Novu.EnvironmentResponseDto> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/environments/me"),
             method: "GET",
@@ -51,14 +51,14 @@ export class Environments {
         }
     }
 
-    public async environmentsControllerGetMyEnvironments(): Promise<Novu.EnvironmentResponseDto[]> {
+    public async getAll(): Promise<Novu.EnvironmentResponseDto[]> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/environments"),
             method: "GET",
         });
         if (_response.ok) {
-            return await serializers.environments.environmentsControllerGetMyEnvironments.Response.parseOrThrow(
-                _response.body as serializers.environments.environmentsControllerGetMyEnvironments.Response.Raw,
+            return await serializers.environments.getAll.Response.parseOrThrow(
+                _response.body as serializers.environments.getAll.Response.Raw,
                 { allowUnknownKeys: true }
             );
         }
@@ -85,7 +85,7 @@ export class Environments {
         }
     }
 
-    public async environmentsControllerCreateEnvironment(request: Novu.CreateEnvironmentRequestDto): Promise<void> {
+    public async create(request: Novu.CreateEnvironmentRequestDto): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/environments"),
             method: "POST",
@@ -117,10 +117,7 @@ export class Environments {
         }
     }
 
-    public async environmentsControllerUpdateMyEnvironment(
-        environmentId: string,
-        request: Novu.UpdateEnvironmentRequestDto
-    ): Promise<void> {
+    public async update(environmentId: string, request: Novu.UpdateEnvironmentRequestDto): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, `/v1/environments/${environmentId}`),
             method: "PUT",
@@ -152,14 +149,14 @@ export class Environments {
         }
     }
 
-    public async environmentsControllerGetOrganizationApiKeys(): Promise<Novu.ApiKey[]> {
+    public async getApiKeys(): Promise<Novu.ApiKey[]> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/environments/api-keys"),
             method: "GET",
         });
         if (_response.ok) {
-            return await serializers.environments.environmentsControllerGetOrganizationApiKeys.Response.parseOrThrow(
-                _response.body as serializers.environments.environmentsControllerGetOrganizationApiKeys.Response.Raw,
+            return await serializers.environments.getApiKeys.Response.parseOrThrow(
+                _response.body as serializers.environments.getApiKeys.Response.Raw,
                 { allowUnknownKeys: true }
             );
         }
@@ -186,14 +183,14 @@ export class Environments {
         }
     }
 
-    public async environmentsControllerRegenerateOrganizationApiKeys(): Promise<Novu.ApiKey[]> {
+    public async regenerateApiKeys(): Promise<Novu.ApiKey[]> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/environments/api-keys/regenerate"),
             method: "POST",
         });
         if (_response.ok) {
-            return await serializers.environments.environmentsControllerRegenerateOrganizationApiKeys.Response.parseOrThrow(
-                _response.body as serializers.environments.environmentsControllerRegenerateOrganizationApiKeys.Response.Raw,
+            return await serializers.environments.regenerateApiKeys.Response.parseOrThrow(
+                _response.body as serializers.environments.regenerateApiKeys.Response.Raw,
                 { allowUnknownKeys: true }
             );
         }
@@ -220,7 +217,7 @@ export class Environments {
         }
     }
 
-    public async environmentsControllerUpdateWidgetSettings(
+    public async updateWidgetSettings(
         request: Novu.UpdateWidgetSettingsRequestDto
     ): Promise<Novu.EnvironmentResponseDto> {
         const _response = await core.fetcher({
