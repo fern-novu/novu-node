@@ -1,11 +1,13 @@
 {
     "name": "@fern-api/novu",
-    "version": "0.0.7",
+    "version": "0.0.9",
     "private": false,
     "repository": "https://github.com/fern-novu/novu-node",
     "files": [
         "Client.d.ts",
         "Client.js",
+        "environments.d.ts",
+        "environments.js",
         "index.d.ts",
         "index.js",
         "api",
