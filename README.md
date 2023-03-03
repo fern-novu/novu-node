@@ -12,12 +12,28 @@ API reference documentation is available [here](https://docs.novu.co/overview/in
 
 ## Usage
 
-[![Try it out](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](TODO)
+[![Try it out](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/typescript-example-using-sdk-built-with-fern-mkjtqn?file=node_modules/@fern-api/novu/api/resources/subscribers/types/CreateSubscriberRequestDto.d.ts)
 
 ```typescript
-import { TODO } from "TODO";
+import { NovuClient } from '@fern-api/novu';
 
-const TODO
+void main();
+
+async function main() {
+  const client = new NovuClient({
+    environment: 'NovuEnvironment',
+  });
+
+  const response =
+    await client.subscribers.create({
+      email: 'string',
+      firstName: 'string',
+      lastName: 'string',
+      phone: 'string',
+      subscriberId: 'string',
+    });
+  console.log('Received response from Novu!', response);
+}
 ```
 
 ## Beta status
