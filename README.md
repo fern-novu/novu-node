@@ -24,8 +24,7 @@ async function main() {
     environment: 'NovuEnvironment',
   });
 
-  const response =
-    await client.subscribers.create({
+  const response = await client.subscribers.create({
       email: 'string',
       firstName: 'string',
       lastName: 'string',
