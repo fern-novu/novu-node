@@ -12,27 +12,29 @@ API reference documentation is available [here](https://docs.novu.co/overview/in
 
 ## Usage
 
-[![Try it out](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/typescript-example-using-sdk-built-with-fern-mkjtqn?file=node_modules/@fern-api/novu/api/resources/subscribers/types/CreateSubscriberRequestDto.d.ts)
+[![Try it out](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/typescript-example-using-sdk-built-with-fern-6mblds?file=app.ts)
 
 ```typescript
 import { NovuClient } from '@fern-api/novu';
 
-void main();
+const novu = new NovuClient({
+  apiKey: 'NOVU_API_KEY'
+});
 
-async function main() {
-  const client = new NovuClient({
-    environment: 'NovuEnvironment',
-  });
-
-  const response = await client.subscribers.create({
-      email: 'string',
-      firstName: 'string',
-      lastName: 'string',
-      phone: 'string',
-      subscriberId: 'string',
-    });
-  console.log('Received response from Novu!', response);
-}
+await novu.trigger({
+  name: '<REPLACE_WITH_EVENT_NAME_FROM_ADMIN_PANEL>',
+  to: {
+    subscriberId: '<USER_IDENTIFIER>',
+    email: 'test@email.com',
+    firstName: 'John',
+    lastName: 'Doe',
+  },
+  payload: {
+    organization: {
+      logo: 'https://evilcorp.com/logo.png',
+    },
+  },
+});
 ```
 
 ## Beta status
