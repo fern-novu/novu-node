@@ -12,7 +12,7 @@ import * as errors from "../../../../errors";
 export declare namespace Activity {
     interface Options {
         environment: environments.NovuEnvironment | string;
-        apiKey?: core.Supplier<string>;
+        token?: core.Supplier<core.BearerToken | undefined>;
     }
 }
 
@@ -35,7 +35,7 @@ export class Activity {
             url: urlJoin(this.options.environment, "/v1/activity"),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             queryParameters: _queryParams,
         });
@@ -73,7 +73,7 @@ export class Activity {
             url: urlJoin(this.options.environment, "/v1/activity/stats"),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -118,7 +118,7 @@ export class Activity {
             url: urlJoin(this.options.environment, "/v1/activity/graph/stats"),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             queryParameters: _queryParams,
         });

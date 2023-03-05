@@ -12,7 +12,7 @@ import * as errors from "../../../../errors";
 export declare namespace Feeds {
     interface Options {
         environment: environments.NovuEnvironment | string;
-        apiKey?: core.Supplier<string>;
+        token?: core.Supplier<core.BearerToken | undefined>;
     }
 }
 
@@ -24,7 +24,7 @@ export class Feeds {
             url: urlJoin(this.options.environment, "/v1/feeds"),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -61,7 +61,7 @@ export class Feeds {
             url: urlJoin(this.options.environment, "/v1/feeds"),
             method: "POST",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             body: await serializers.CreateFeedRequestDto.jsonOrThrow(request),
         });
@@ -96,7 +96,7 @@ export class Feeds {
             url: urlJoin(this.options.environment, `/v1/feeds/${feedId}`),
             method: "DELETE",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {

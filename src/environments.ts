@@ -4,6 +4,7 @@
 
 export const NovuEnvironment = {
     Production: "https://api.novu.co/v1",
+    Local: "http://localhost:300",
 } as const;
 
-export type NovuEnvironment = typeof NovuEnvironment.Production;
+export type NovuEnvironment = typeof NovuEnvironment.Production | typeof NovuEnvironment.Local;

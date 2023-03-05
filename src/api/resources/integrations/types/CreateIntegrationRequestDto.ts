@@ -6,7 +6,7 @@ import { Novu } from "@fern-api/novu";
 
 export interface CreateIntegrationRequestDto {
     providerId: string;
-    channel: Novu.CreateEnvironmentRequestDtoChannel;
+    channel: Novu.ChannelPreferenceType;
     credentials: Novu.CredentialsDto;
     active: boolean;
     check: boolean;

@@ -12,7 +12,7 @@ import * as errors from "../../../../errors";
 export declare namespace NotificationTemplates {
     interface Options {
         environment: environments.NovuEnvironment | string;
-        apiKey?: core.Supplier<string>;
+        token?: core.Supplier<core.BearerToken | undefined>;
     }
 }
 
@@ -36,7 +36,7 @@ export class NotificationTemplates {
             url: urlJoin(this.options.environment, "/v1/notification-templates"),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             queryParameters: _queryParams,
         });
@@ -74,7 +74,7 @@ export class NotificationTemplates {
             url: urlJoin(this.options.environment, "/v1/notification-templates"),
             method: "POST",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             body: await serializers.CreateNotificationTemplateRequestDto.jsonOrThrow(request),
         });
@@ -109,7 +109,7 @@ export class NotificationTemplates {
             url: urlJoin(this.options.environment, `/v1/notification-templates/${templateId}`),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -149,7 +149,7 @@ export class NotificationTemplates {
             url: urlJoin(this.options.environment, `/v1/notification-templates/${templateId}`),
             method: "PUT",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             body: await serializers.UpdateNotificationTemplateRequestDto.jsonOrThrow(request),
         });
@@ -187,7 +187,7 @@ export class NotificationTemplates {
             url: urlJoin(this.options.environment, `/v1/notification-templates/${templateId}`),
             method: "DELETE",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -224,7 +224,7 @@ export class NotificationTemplates {
             url: urlJoin(this.options.environment, `/v1/notification-templates/${templateId}/blueprint`),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -258,7 +258,7 @@ export class NotificationTemplates {
             url: urlJoin(this.options.environment, `/v1/notification-templates/${templateId}/blueprint`),
             method: "POST",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -295,7 +295,7 @@ export class NotificationTemplates {
             url: urlJoin(this.options.environment, `/v1/notification-templates/${templateId}/status`),
             method: "PUT",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             body: await serializers.ChangeTemplateStatusRequestDto.jsonOrThrow(request),
         });

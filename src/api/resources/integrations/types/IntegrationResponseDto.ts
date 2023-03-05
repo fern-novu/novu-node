@@ -9,7 +9,7 @@ export interface IntegrationResponseDto {
     environmentId: string;
     organizationId: string;
     providerId: string;
-    channel: Novu.IntegrationResponseDtoChannelChannel;
+    channel: Novu.ChannelPreferenceType;
     credentials: Novu.CredentialsDto;
     active: boolean;
     deleted: boolean;

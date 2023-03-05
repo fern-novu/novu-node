@@ -3,7 +3,6 @@ export * from "./TriggerEventResponseDto";
 export * from "./TriggerEventRequestDtoTo";
 export * from "./SubscriberPayloadDto";
 export * from "./TopicPayloadDto";
-export * from "./TopicPayloadDtoType";
 export * from "./TriggerEventRequestDtoActor";
 export * from "./TriggerEventResponseDtoStatus";
 export * from "./BulkTriggerEventDto";

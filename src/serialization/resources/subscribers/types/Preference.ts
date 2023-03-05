@@ -9,12 +9,12 @@ import * as core from "../../../../core";
 export const Preference: core.serialization.ObjectSchema<serializers.Preference.Raw, Novu.Preference> =
     core.serialization.object({
         enabled: core.serialization.boolean(),
-        channels: core.serialization.lazyObject(async () => (await import("../../..")).PrefenceChannel),
+        channels: core.serialization.lazyObject(async () => (await import("../../..")).PreferenceChannels),
     });
 
 export declare namespace Preference {
     interface Raw {
         enabled: boolean;
-        channels: serializers.PrefenceChannel.Raw;
+        channels: serializers.PreferenceChannels.Raw;
     }
 }

@@ -5,6 +5,6 @@
 import { Novu } from "@fern-api/novu";
 
 export interface UpdateSubscriberPreferenceResponseDto {
-    template: Novu.UpdateSubscriberPreferenceResponseDtoTemplate;
-    preference: Novu.UpdateSubscriberPreferenceResponseDtoPreference;
+    template: Novu.TemplateResponse;
+    preference: Novu.Preference;
 }

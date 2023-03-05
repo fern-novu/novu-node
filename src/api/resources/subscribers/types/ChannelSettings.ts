@@ -8,5 +8,5 @@ export interface ChannelSettings {
     /** Id of the integration that is used for this channel */
     integrationId: string;
     providerId: Novu.ChannelSettingsProviderId;
-    credentials: Novu.ChannelSettingsCredentials;
+    credentials: Novu.ChannelCredentials;
 }

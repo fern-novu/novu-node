@@ -13,14 +13,12 @@ export const UpdateSubscriberChannelRequestDto: core.serialization.ObjectSchema<
     providerId: core.serialization.lazy(
         async () => (await import("../../..")).UpdateSubscriberChannelRequestDtoProviderId
     ),
-    credentials: core.serialization.lazyObject(
-        async () => (await import("../../..")).UpdateSubscriberChannelRequestDtoCredentials
-    ),
+    credentials: core.serialization.lazyObject(async () => (await import("../../..")).ChannelCredentials),
 });
 
 export declare namespace UpdateSubscriberChannelRequestDto {
     interface Raw {
         providerId: serializers.UpdateSubscriberChannelRequestDtoProviderId.Raw;
-        credentials: serializers.UpdateSubscriberChannelRequestDtoCredentials.Raw;
+        credentials: serializers.ChannelCredentials.Raw;
     }
 }

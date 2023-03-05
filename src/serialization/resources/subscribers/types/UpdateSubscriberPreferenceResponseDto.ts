@@ -10,17 +10,13 @@ export const UpdateSubscriberPreferenceResponseDto: core.serialization.ObjectSch
     serializers.UpdateSubscriberPreferenceResponseDto.Raw,
     Novu.UpdateSubscriberPreferenceResponseDto
 > = core.serialization.object({
-    template: core.serialization.lazyObject(
-        async () => (await import("../../..")).UpdateSubscriberPreferenceResponseDtoTemplate
-    ),
-    preference: core.serialization.lazyObject(
-        async () => (await import("../../..")).UpdateSubscriberPreferenceResponseDtoPreference
-    ),
+    template: core.serialization.lazyObject(async () => (await import("../../..")).TemplateResponse),
+    preference: core.serialization.lazyObject(async () => (await import("../../..")).Preference),
 });
 
 export declare namespace UpdateSubscriberPreferenceResponseDto {
     interface Raw {
-        template: serializers.UpdateSubscriberPreferenceResponseDtoTemplate.Raw;
-        preference: serializers.UpdateSubscriberPreferenceResponseDtoPreference.Raw;
+        template: serializers.TemplateResponse.Raw;
+        preference: serializers.Preference.Raw;
     }
 }

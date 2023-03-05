@@ -1,3 +1,4 @@
+export * from "./ChannelPreferenceType";
 export * from "./NotificationTemplateResponse";
 export * from "./PreferenceChannels";
 export * from "./NotificationStep";
@@ -28,4 +29,3 @@ export * from "./ActivityNotificationStepResponseDto";
 export * from "./MessageTemplateDto";
 export * from "./ActivityStatsResponseDto";
 export * from "./ActivityGraphStatesResponse";
-export * from "./ActivityGraphStatesResponseItems";

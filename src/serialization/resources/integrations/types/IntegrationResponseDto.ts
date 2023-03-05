@@ -14,7 +14,7 @@ export const IntegrationResponseDto: core.serialization.ObjectSchema<
     environmentId: core.serialization.property("_environmentId", core.serialization.string()),
     organizationId: core.serialization.property("_organizationId", core.serialization.string()),
     providerId: core.serialization.string(),
-    channel: core.serialization.lazy(async () => (await import("../../..")).IntegrationResponseDtoChannelChannel),
+    channel: core.serialization.lazy(async () => (await import("../../..")).ChannelPreferenceType),
     credentials: core.serialization.lazyObject(async () => (await import("../../..")).CredentialsDto),
     active: core.serialization.boolean(),
     deleted: core.serialization.boolean(),
@@ -28,7 +28,7 @@ export declare namespace IntegrationResponseDto {
         _environmentId: string;
         _organizationId: string;
         providerId: string;
-        channel: serializers.IntegrationResponseDtoChannelChannel.Raw;
+        channel: serializers.ChannelPreferenceType.Raw;
         credentials: serializers.CredentialsDto.Raw;
         active: boolean;
         deleted: boolean;

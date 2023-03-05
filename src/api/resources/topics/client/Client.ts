@@ -12,7 +12,7 @@ import * as errors from "../../../../errors";
 export declare namespace Topics {
     interface Options {
         environment: environments.NovuEnvironment | string;
-        apiKey?: core.Supplier<string>;
+        token?: core.Supplier<core.BearerToken | undefined>;
     }
 }
 
@@ -41,7 +41,7 @@ export class Topics {
             url: urlJoin(this.options.environment, "/v1/topics"),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             queryParameters: _queryParams,
         });
@@ -82,7 +82,7 @@ export class Topics {
             url: urlJoin(this.options.environment, "/v1/topics"),
             method: "POST",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             body: await serializers.CreateTopicRequestDto.jsonOrThrow(request),
         });
@@ -120,7 +120,7 @@ export class Topics {
             url: urlJoin(this.options.environment, `/v1/topics/${topicKey}/subscribers`),
             method: "POST",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             body: await serializers.AddSubscribersRequestDto.jsonOrThrow(request),
         });
@@ -158,7 +158,7 @@ export class Topics {
             url: urlJoin(this.options.environment, `/v1/topics/${topicKey}/subscribers/removal`),
             method: "POST",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             body: await serializers.RemoveSubscribersRequestDto.jsonOrThrow(request),
         });
@@ -196,7 +196,7 @@ export class Topics {
             url: urlJoin(this.options.environment, `/v1/topics/${topicKey}`),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -236,7 +236,7 @@ export class Topics {
             url: urlJoin(this.options.environment, `/v1/topics/${topicKey}`),
             method: "PATCH",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             body: await serializers.RenameTopicRequestDto.jsonOrThrow(request),
         });

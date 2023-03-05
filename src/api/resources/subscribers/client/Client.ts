@@ -12,7 +12,7 @@ import * as errors from "../../../../errors";
 export declare namespace Subscribers {
     interface Options {
         environment: environments.NovuEnvironment | string;
-        apiKey?: core.Supplier<string>;
+        token?: core.Supplier<core.BearerToken | undefined>;
     }
 }
 
@@ -35,7 +35,7 @@ export class Subscribers {
             url: urlJoin(this.options.environment, "/v1/subscribers"),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             queryParameters: _queryParams,
         });
@@ -76,7 +76,7 @@ export class Subscribers {
             url: urlJoin(this.options.environment, "/v1/subscribers"),
             method: "POST",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             body: await serializers.CreateSubscriberRequestDto.jsonOrThrow(request),
         });
@@ -114,7 +114,7 @@ export class Subscribers {
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}`),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -157,7 +157,7 @@ export class Subscribers {
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}`),
             method: "PUT",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             body: await serializers.UpdateSubscriberRequestDto.jsonOrThrow(request),
         });
@@ -198,7 +198,7 @@ export class Subscribers {
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}`),
             method: "DELETE",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -241,7 +241,7 @@ export class Subscribers {
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}/credentials`),
             method: "PUT",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             body: await serializers.UpdateSubscriberChannelRequestDto.jsonOrThrow(request),
         });
@@ -285,7 +285,7 @@ export class Subscribers {
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}/online-status`),
             method: "PATCH",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             body: await serializers.UpdateSubscriberOnlineFlagRequestDto.jsonOrThrow(request),
         });
@@ -323,7 +323,7 @@ export class Subscribers {
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}/preferences`),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -364,7 +364,7 @@ export class Subscribers {
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}/preferences/${templateId}`),
             method: "PATCH",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             body: await serializers.UpdateSubscriberPreferenceRequestDto.jsonOrThrow(request),
         });
@@ -416,7 +416,7 @@ export class Subscribers {
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}/notifications/feed`),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             queryParameters: _queryParams,
         });
@@ -460,7 +460,7 @@ export class Subscribers {
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}/notifications/unseen`),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             queryParameters: _queryParams,
         });
@@ -501,7 +501,7 @@ export class Subscribers {
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}/messages/${messageId}/seen`),
             method: "POST",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -535,7 +535,7 @@ export class Subscribers {
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}/messages/markAs`),
             method: "POST",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             body: await serializers.MarkMessageAsRequestDto.jsonOrThrow(request),
         });
@@ -573,7 +573,7 @@ export class Subscribers {
             ),
             method: "POST",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {

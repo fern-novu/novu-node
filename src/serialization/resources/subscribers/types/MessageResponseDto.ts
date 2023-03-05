@@ -25,7 +25,7 @@ export const MessageResponseDto: core.serialization.ObjectSchema<
     createdAt: core.serialization.string().optional(),
     content: core.serialization.lazy(async () => (await import("../../..")).MessageResponseDtoContent),
     transactionId: core.serialization.string(),
-    channel: core.serialization.lazy(async () => (await import("../../..")).MessageResponseDtoChannel),
+    channel: core.serialization.lazy(async () => (await import("../../..")).ChannelPreferenceType),
     seen: core.serialization.boolean(),
     email: core.serialization.string().optional(),
     phone: core.serialization.string().optional(),
@@ -59,7 +59,7 @@ export declare namespace MessageResponseDto {
         createdAt?: string | null;
         content?: serializers.MessageResponseDtoContent.Raw;
         transactionId: string;
-        channel: serializers.MessageResponseDtoChannel.Raw;
+        channel: serializers.ChannelPreferenceType.Raw;
         seen: boolean;
         email?: string | null;
         phone?: string | null;

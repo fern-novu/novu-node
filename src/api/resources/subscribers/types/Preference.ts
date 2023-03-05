@@ -7,5 +7,5 @@ import { Novu } from "@fern-api/novu";
 export interface Preference {
     /** Sets if the notification template is fully enabled for all channels or not for the subscriber. */
     enabled: boolean;
-    channels: Novu.PrefenceChannel;
+    channels: Novu.PreferenceChannels;
 }

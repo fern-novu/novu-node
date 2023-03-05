@@ -9,12 +9,12 @@ import * as core from "../../core";
 export const TopicPayloadDto: core.serialization.ObjectSchema<serializers.TopicPayloadDto.Raw, Novu.TopicPayloadDto> =
     core.serialization.object({
         topicKey: core.serialization.string(),
-        type: core.serialization.lazy(async () => (await import("..")).TopicPayloadDtoType),
+        type: core.serialization.string(),
     });
 
 export declare namespace TopicPayloadDto {
     interface Raw {
         topicKey: string;
-        type: serializers.TopicPayloadDtoType.Raw;
+        type: string;
     }
 }

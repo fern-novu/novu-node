@@ -12,7 +12,7 @@ import * as errors from "../../../../errors";
 export declare namespace Messages {
     interface Options {
         environment: environments.NovuEnvironment | string;
-        apiKey?: core.Supplier<string>;
+        token?: core.Supplier<core.BearerToken | undefined>;
     }
 }
 
@@ -45,7 +45,7 @@ export class Messages {
             url: urlJoin(this.options.environment, "/v1/messages"),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             queryParameters: _queryParams,
         });
@@ -86,7 +86,7 @@ export class Messages {
             url: urlJoin(this.options.environment, `/v1/messages/${messageId}`),
             method: "DELETE",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {

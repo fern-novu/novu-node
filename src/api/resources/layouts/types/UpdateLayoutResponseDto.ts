@@ -11,7 +11,7 @@ export interface UpdateLayoutResponseDto {
     creatorId: string;
     name: string;
     description?: string;
-    channel: Novu.UpdateLayoutRequestDtoProperties;
+    channel: Novu.ChannelPreferenceType;
     content: string;
     contentType: string;
     variables?: Record<string, unknown>[];

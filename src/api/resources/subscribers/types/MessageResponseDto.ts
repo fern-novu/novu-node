@@ -18,7 +18,7 @@ export interface MessageResponseDto {
     createdAt?: string;
     content?: Novu.MessageResponseDtoContent;
     transactionId: string;
-    channel: Novu.MessageResponseDtoChannel;
+    channel: Novu.ChannelPreferenceType;
     seen: boolean;
     email?: string;
     phone?: string;

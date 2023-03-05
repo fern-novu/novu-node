@@ -12,7 +12,7 @@ import * as errors from "../../../../errors";
 export declare namespace Changes {
     interface Options {
         environment: environments.NovuEnvironment | string;
-        apiKey?: core.Supplier<string>;
+        token?: core.Supplier<core.BearerToken | undefined>;
     }
 }
 
@@ -35,7 +35,7 @@ export class Changes {
             url: urlJoin(this.options.environment, "/v1/changes"),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             queryParameters: _queryParams,
         });
@@ -73,7 +73,7 @@ export class Changes {
             url: urlJoin(this.options.environment, "/v1/changes/count"),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -110,7 +110,7 @@ export class Changes {
             url: urlJoin(this.options.environment, "/v1/changes/bulk/apply"),
             method: "POST",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -144,7 +144,7 @@ export class Changes {
             url: urlJoin(this.options.environment, `/v1/changes/${changeId}/apply`),
             method: "POST",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {

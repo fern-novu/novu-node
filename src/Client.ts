@@ -27,7 +27,7 @@ import { Messages } from "./api/resources/messages/client/Client";
 export declare namespace NovuClient {
     interface Options {
         environment: environments.NovuEnvironment | string;
-        apiKey?: core.Supplier<string>;
+        token?: core.Supplier<core.BearerToken | undefined>;
     }
 }
 
@@ -46,7 +46,7 @@ export class NovuClient {
             url: urlJoin(this.options.environment, "/v1/events/trigger"),
             method: "POST",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             body: await serializers.TriggerEventRequestDto.jsonOrThrow(request),
         });
@@ -87,7 +87,7 @@ export class NovuClient {
             url: urlJoin(this.options.environment, "/v1/events/trigger/bulk"),
             method: "POST",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             body: await serializers.BulkTriggerEventDto.jsonOrThrow(request),
         });
@@ -126,7 +126,7 @@ export class NovuClient {
             url: urlJoin(this.options.environment, "/v1/events/trigger/broadcast"),
             method: "POST",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             body: await serializers.TriggerEventToAllRequestDto.jsonOrThrow(request),
         });

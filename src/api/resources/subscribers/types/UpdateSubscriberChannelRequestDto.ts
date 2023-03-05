@@ -6,5 +6,5 @@ import { Novu } from "@fern-api/novu";
 
 export interface UpdateSubscriberChannelRequestDto {
     providerId: Novu.UpdateSubscriberChannelRequestDtoProviderId;
-    credentials: Novu.UpdateSubscriberChannelRequestDtoCredentials;
+    credentials: Novu.ChannelCredentials;
 }

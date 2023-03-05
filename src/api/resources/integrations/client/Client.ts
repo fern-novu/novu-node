@@ -12,7 +12,7 @@ import * as errors from "../../../../errors";
 export declare namespace Integrations {
     interface Options {
         environment: environments.NovuEnvironment | string;
-        apiKey?: core.Supplier<string>;
+        token?: core.Supplier<core.BearerToken | undefined>;
     }
 }
 
@@ -24,7 +24,7 @@ export class Integrations {
             url: urlJoin(this.options.environment, "/v1/integrations"),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -61,7 +61,7 @@ export class Integrations {
             url: urlJoin(this.options.environment, "/v1/integrations"),
             method: "POST",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             body: await serializers.CreateIntegrationRequestDto.jsonOrThrow(request),
         });
@@ -96,7 +96,7 @@ export class Integrations {
             url: urlJoin(this.options.environment, "/v1/integrations/active"),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -133,7 +133,7 @@ export class Integrations {
             url: urlJoin(this.options.environment, `/v1/integrations/webhook/provider/${providerId}/status`),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -170,7 +170,7 @@ export class Integrations {
             url: urlJoin(this.options.environment, `/v1/integrations/${integrationId}`),
             method: "PUT",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             body: await serializers.UpdateIntegrationRequestDto.jsonOrThrow(request),
         });
@@ -208,7 +208,7 @@ export class Integrations {
             url: urlJoin(this.options.environment, `/v1/integrations/${integrationId}`),
             method: "DELETE",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -245,7 +245,7 @@ export class Integrations {
             url: urlJoin(this.options.environment, `/v1/integrations/${channelType}/limit`),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -279,7 +279,7 @@ export class Integrations {
             url: urlJoin(this.options.environment, "/v1/integrations/in-app/status"),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {

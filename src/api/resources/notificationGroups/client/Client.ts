@@ -12,7 +12,7 @@ import * as errors from "../../../../errors";
 export declare namespace NotificationGroups {
     interface Options {
         environment: environments.NovuEnvironment | string;
-        apiKey?: core.Supplier<string>;
+        token?: core.Supplier<core.BearerToken | undefined>;
     }
 }
 
@@ -24,7 +24,7 @@ export class NotificationGroups {
             url: urlJoin(this.options.environment, "/v1/notification-groups"),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -61,7 +61,7 @@ export class NotificationGroups {
             url: urlJoin(this.options.environment, "/v1/notification-groups"),
             method: "POST",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             body: await serializers.CreateNotificationGroupRequestDto.jsonOrThrow(request),
         });

@@ -10,13 +10,13 @@ export const ChannelSettings: core.serialization.ObjectSchema<serializers.Channe
     core.serialization.object({
         integrationId: core.serialization.property("_integrationId", core.serialization.string()),
         providerId: core.serialization.lazy(async () => (await import("../../..")).ChannelSettingsProviderId),
-        credentials: core.serialization.lazyObject(async () => (await import("../../..")).ChannelSettingsCredentials),
+        credentials: core.serialization.lazyObject(async () => (await import("../../..")).ChannelCredentials),
     });
 
 export declare namespace ChannelSettings {
     interface Raw {
         _integrationId: string;
         providerId: serializers.ChannelSettingsProviderId.Raw;
-        credentials: serializers.ChannelSettingsCredentials.Raw;
+        credentials: serializers.ChannelCredentials.Raw;
     }
 }

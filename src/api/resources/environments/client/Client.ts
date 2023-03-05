@@ -12,7 +12,7 @@ import * as errors from "../../../../errors";
 export declare namespace Environments {
     interface Options {
         environment: environments.NovuEnvironment | string;
-        apiKey?: core.Supplier<string>;
+        token?: core.Supplier<core.BearerToken | undefined>;
     }
 }
 
@@ -24,7 +24,7 @@ export class Environments {
             url: urlJoin(this.options.environment, "/v1/environments/me"),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -61,7 +61,7 @@ export class Environments {
             url: urlJoin(this.options.environment, "/v1/environments"),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -98,7 +98,7 @@ export class Environments {
             url: urlJoin(this.options.environment, "/v1/environments"),
             method: "POST",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             body: await serializers.CreateEnvironmentRequestDto.jsonOrThrow(request),
         });
@@ -133,7 +133,7 @@ export class Environments {
             url: urlJoin(this.options.environment, `/v1/environments/${environmentId}`),
             method: "PUT",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             body: await serializers.UpdateEnvironmentRequestDto.jsonOrThrow(request),
         });
@@ -168,7 +168,7 @@ export class Environments {
             url: urlJoin(this.options.environment, "/v1/environments/api-keys"),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -205,7 +205,7 @@ export class Environments {
             url: urlJoin(this.options.environment, "/v1/environments/api-keys/regenerate"),
             method: "POST",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -244,7 +244,7 @@ export class Environments {
             url: urlJoin(this.options.environment, "/v1/environments/widget/settings"),
             method: "PUT",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             body: await serializers.UpdateWidgetSettingsRequestDto.jsonOrThrow(request),
         });

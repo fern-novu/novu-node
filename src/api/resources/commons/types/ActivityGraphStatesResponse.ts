@@ -8,5 +8,5 @@ export interface ActivityGraphStatesResponse {
     id: string;
     count: number;
     templates: string[];
-    channels: Novu.ActivityGraphStatesResponseItems[];
+    channels: Novu.ChannelPreferenceType[];
 }

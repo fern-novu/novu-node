@@ -8,7 +8,7 @@ export interface MessagesControllerGetMessagesRequest {
     /**
      * The channel for the messages you wish to list
      */
-    channel?: Novu.GetMessagesParametersSchema;
+    channel?: Novu.ChannelPreferenceType;
     /**
      * The subscriberId for the subscriber you like to list messages for
      */

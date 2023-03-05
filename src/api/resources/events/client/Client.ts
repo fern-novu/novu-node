@@ -11,7 +11,7 @@ import * as errors from "../../../../errors";
 export declare namespace Events {
     interface Options {
         environment: environments.NovuEnvironment | string;
-        apiKey?: core.Supplier<string>;
+        token?: core.Supplier<core.BearerToken | undefined>;
     }
 }
 
@@ -29,7 +29,7 @@ export class Events {
             url: urlJoin(this.options.environment, `/v1/events/trigger/${transactionId}`),
             method: "DELETE",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {

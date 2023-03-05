@@ -16,7 +16,7 @@ export const GetLayoutResponseDto: core.serialization.ObjectSchema<
     creatorId: core.serialization.property("_creatorId", core.serialization.string()),
     name: core.serialization.string(),
     description: core.serialization.string().optional(),
-    channel: core.serialization.lazy(async () => (await import("../../..")).GetLayoutResponseDtoProperties),
+    channel: core.serialization.lazy(async () => (await import("../../..")).ChannelPreferenceType),
     content: core.serialization.string(),
     contentType: core.serialization.string(),
     variables: core.serialization
@@ -37,7 +37,7 @@ export declare namespace GetLayoutResponseDto {
         _creatorId: string;
         name: string;
         description?: string | null;
-        channel: serializers.GetLayoutResponseDtoProperties.Raw;
+        channel: serializers.ChannelPreferenceType.Raw;
         content: string;
         contentType: string;
         variables?: Record<string, unknown>[] | null;

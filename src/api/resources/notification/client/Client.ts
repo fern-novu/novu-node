@@ -12,7 +12,7 @@ import * as errors from "../../../../errors";
 export declare namespace Notification {
     interface Options {
         environment: environments.NovuEnvironment | string;
-        apiKey?: core.Supplier<string>;
+        token?: core.Supplier<core.BearerToken | undefined>;
     }
 }
 
@@ -37,7 +37,7 @@ export class Notification {
             url: urlJoin(this.options.environment, "/v1/notifications"),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             queryParameters: _queryParams,
         });
@@ -75,7 +75,7 @@ export class Notification {
             url: urlJoin(this.options.environment, "/v1/notifications/stats"),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -120,7 +120,7 @@ export class Notification {
             url: urlJoin(this.options.environment, "/v1/notifications/graph/stats"),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             queryParameters: _queryParams,
         });
@@ -158,7 +158,7 @@ export class Notification {
             url: urlJoin(this.options.environment, `/v1/notifications/${notificationId}`),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {

@@ -12,7 +12,7 @@ import * as errors from "../../../../errors";
 export declare namespace Layouts {
     interface Options {
         environment: environments.NovuEnvironment | string;
-        apiKey?: core.Supplier<string>;
+        token?: core.Supplier<core.BearerToken | undefined>;
     }
 }
 
@@ -43,7 +43,7 @@ export class Layouts {
             url: urlJoin(this.options.environment, "/v1/layouts"),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             queryParameters: _queryParams,
         });
@@ -84,7 +84,7 @@ export class Layouts {
             url: urlJoin(this.options.environment, "/v1/layouts"),
             method: "POST",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             body: await serializers.CreateLayoutRequestDto.jsonOrThrow(request),
         });
@@ -122,7 +122,7 @@ export class Layouts {
             url: urlJoin(this.options.environment, `/v1/layouts/${layoutId}`),
             method: "GET",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -162,7 +162,7 @@ export class Layouts {
             url: urlJoin(this.options.environment, `/v1/layouts/${layoutId}`),
             method: "DELETE",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {
@@ -199,7 +199,7 @@ export class Layouts {
             url: urlJoin(this.options.environment, `/v1/layouts/${layoutId}`),
             method: "PATCH",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
             body: await serializers.UpdateLayoutRequestDto.jsonOrThrow(request),
         });
@@ -240,7 +240,7 @@ export class Layouts {
             url: urlJoin(this.options.environment, `/v1/layouts/${layoutId}/default`),
             method: "POST",
             headers: {
-                "x-api-key": await core.Supplier.get(this.options.apiKey),
+                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
             },
         });
         if (_response.ok) {

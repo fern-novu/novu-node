@@ -14,7 +14,7 @@ export const ActivityGraphStatesResponse: core.serialization.ObjectSchema<
     count: core.serialization.number(),
     templates: core.serialization.list(core.serialization.string()),
     channels: core.serialization.list(
-        core.serialization.lazy(async () => (await import("../../..")).ActivityGraphStatesResponseItems)
+        core.serialization.lazy(async () => (await import("../../..")).ChannelPreferenceType)
     ),
 });
 
@@ -23,6 +23,6 @@ export declare namespace ActivityGraphStatesResponse {
         _id: string;
         count: number;
         templates: string[];
-        channels: serializers.ActivityGraphStatesResponseItems.Raw[];
+        channels: serializers.ChannelPreferenceType.Raw[];
     }
 }

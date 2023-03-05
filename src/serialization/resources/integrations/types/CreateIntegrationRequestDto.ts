@@ -11,7 +11,7 @@ export const CreateIntegrationRequestDto: core.serialization.ObjectSchema<
     Novu.CreateIntegrationRequestDto
 > = core.serialization.object({
     providerId: core.serialization.string(),
-    channel: core.serialization.lazy(async () => (await import("../../..")).CreateEnvironmentRequestDtoChannel),
+    channel: core.serialization.lazy(async () => (await import("../../..")).ChannelPreferenceType),
     credentials: core.serialization.lazyObject(async () => (await import("../../..")).CredentialsDto),
     active: core.serialization.boolean(),
     check: core.serialization.boolean(),
@@ -20,7 +20,7 @@ export const CreateIntegrationRequestDto: core.serialization.ObjectSchema<
 export declare namespace CreateIntegrationRequestDto {
     interface Raw {
         providerId: string;
-        channel: serializers.CreateEnvironmentRequestDtoChannel.Raw;
+        channel: serializers.ChannelPreferenceType.Raw;
         credentials: serializers.CredentialsDto.Raw;
         active: boolean;
         check: boolean;
