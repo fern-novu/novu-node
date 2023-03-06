@@ -12,7 +12,7 @@ import * as errors from "../../../../errors";
 export declare namespace Subscribers {
     interface Options {
         environment: environments.NovuEnvironment | string;
-        token?: core.Supplier<core.BearerToken | undefined>;
+        apiKey: core.Supplier<string>;
     }
 }
 
@@ -35,15 +35,16 @@ export class Subscribers {
             url: urlJoin(this.options.environment, "/v1/subscribers"),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
             queryParameters: _queryParams,
         });
         if (_response.ok) {
-            return await serializers.SubscribersResponseDto.parseOrThrow(
-                _response.body as serializers.SubscribersResponseDto.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.SubscribersResponseDto.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -76,9 +77,11 @@ export class Subscribers {
             url: urlJoin(this.options.environment, "/v1/subscribers"),
             method: "POST",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
-            body: await serializers.CreateSubscriberRequestDto.jsonOrThrow(request),
+            body: await serializers.CreateSubscriberRequestDto.jsonOrThrow(request, {
+                unrecognizedObjectKeys: "strip",
+            }),
         });
         if (_response.ok) {
             return;
@@ -114,14 +117,15 @@ export class Subscribers {
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}`),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
         });
         if (_response.ok) {
-            return await serializers.SubscriberResponseDto.parseOrThrow(
-                _response.body as serializers.SubscriberResponseDto.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.SubscriberResponseDto.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -157,15 +161,18 @@ export class Subscribers {
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}`),
             method: "PUT",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
-            body: await serializers.UpdateSubscriberRequestDto.jsonOrThrow(request),
+            body: await serializers.UpdateSubscriberRequestDto.jsonOrThrow(request, {
+                unrecognizedObjectKeys: "strip",
+            }),
         });
         if (_response.ok) {
-            return await serializers.SubscriberResponseDto.parseOrThrow(
-                _response.body as serializers.SubscriberResponseDto.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.SubscriberResponseDto.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -198,14 +205,15 @@ export class Subscribers {
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}`),
             method: "DELETE",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
         });
         if (_response.ok) {
-            return await serializers.DeleteSubscriberResponseDto.parseOrThrow(
-                _response.body as serializers.DeleteSubscriberResponseDto.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.DeleteSubscriberResponseDto.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -241,15 +249,18 @@ export class Subscribers {
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}/credentials`),
             method: "PUT",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
-            body: await serializers.UpdateSubscriberChannelRequestDto.jsonOrThrow(request),
+            body: await serializers.UpdateSubscriberChannelRequestDto.jsonOrThrow(request, {
+                unrecognizedObjectKeys: "strip",
+            }),
         });
         if (_response.ok) {
-            return await serializers.SubscriberResponseDto.parseOrThrow(
-                _response.body as serializers.SubscriberResponseDto.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.SubscriberResponseDto.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -285,15 +296,18 @@ export class Subscribers {
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}/online-status`),
             method: "PATCH",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
-            body: await serializers.UpdateSubscriberOnlineFlagRequestDto.jsonOrThrow(request),
+            body: await serializers.UpdateSubscriberOnlineFlagRequestDto.jsonOrThrow(request, {
+                unrecognizedObjectKeys: "strip",
+            }),
         });
         if (_response.ok) {
-            return await serializers.SubscriberResponseDto.parseOrThrow(
-                _response.body as serializers.SubscriberResponseDto.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.SubscriberResponseDto.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -323,14 +337,15 @@ export class Subscribers {
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}/preferences`),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
         });
         if (_response.ok) {
-            return await serializers.subscribers.getPreferences.Response.parseOrThrow(
-                _response.body as serializers.subscribers.getPreferences.Response.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.subscribers.getPreferences.Response.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -364,15 +379,18 @@ export class Subscribers {
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}/preferences/${templateId}`),
             method: "PATCH",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
-            body: await serializers.UpdateSubscriberPreferenceRequestDto.jsonOrThrow(request),
+            body: await serializers.UpdateSubscriberPreferenceRequestDto.jsonOrThrow(request, {
+                unrecognizedObjectKeys: "strip",
+            }),
         });
         if (_response.ok) {
-            return await serializers.UpdateSubscriberPreferenceResponseDto.parseOrThrow(
-                _response.body as serializers.UpdateSubscriberPreferenceResponseDto.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.UpdateSubscriberPreferenceResponseDto.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -416,15 +434,16 @@ export class Subscribers {
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}/notifications/feed`),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
             queryParameters: _queryParams,
         });
         if (_response.ok) {
-            return await serializers.MessagesResponseDto.parseOrThrow(
-                _response.body as serializers.MessagesResponseDto.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.MessagesResponseDto.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -460,15 +479,16 @@ export class Subscribers {
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}/notifications/unseen`),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
             queryParameters: _queryParams,
         });
         if (_response.ok) {
-            return await serializers.UnseenCountResponse.parseOrThrow(
-                _response.body as serializers.UnseenCountResponse.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.UnseenCountResponse.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -501,7 +521,7 @@ export class Subscribers {
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}/messages/${messageId}/seen`),
             method: "POST",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
         });
         if (_response.ok) {
@@ -535,9 +555,9 @@ export class Subscribers {
             url: urlJoin(this.options.environment, `/v1/subscribers/${subscriberId}/messages/markAs`),
             method: "POST",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
-            body: await serializers.MarkMessageAsRequestDto.jsonOrThrow(request),
+            body: await serializers.MarkMessageAsRequestDto.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
         });
         if (_response.ok) {
             return;
@@ -573,7 +593,7 @@ export class Subscribers {
             ),
             method: "POST",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
         });
         if (_response.ok) {
@@ -600,5 +620,14 @@ export class Subscribers {
                     message: _response.error.errorMessage,
                 });
         }
+    }
+
+    private async _getAuthorizationHeader() {
+        const value = await core.Supplier.get(this.options.apiKey);
+        if (value != null) {
+            return `ApiKey ${value}`;
+        }
+
+        return undefined;
     }
 }

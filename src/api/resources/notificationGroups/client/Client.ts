@@ -12,7 +12,7 @@ import * as errors from "../../../../errors";
 export declare namespace NotificationGroups {
     interface Options {
         environment: environments.NovuEnvironment | string;
-        token?: core.Supplier<core.BearerToken | undefined>;
+        apiKey: core.Supplier<string>;
     }
 }
 
@@ -24,14 +24,15 @@ export class NotificationGroups {
             url: urlJoin(this.options.environment, "/v1/notification-groups"),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
         });
         if (_response.ok) {
-            return await serializers.notificationGroups.getAll.Response.parseOrThrow(
-                _response.body as serializers.notificationGroups.getAll.Response.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.notificationGroups.getAll.Response.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -61,9 +62,11 @@ export class NotificationGroups {
             url: urlJoin(this.options.environment, "/v1/notification-groups"),
             method: "POST",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
-            body: await serializers.CreateNotificationGroupRequestDto.jsonOrThrow(request),
+            body: await serializers.CreateNotificationGroupRequestDto.jsonOrThrow(request, {
+                unrecognizedObjectKeys: "strip",
+            }),
         });
         if (_response.ok) {
             return;
@@ -89,5 +92,14 @@ export class NotificationGroups {
                     message: _response.error.errorMessage,
                 });
         }
+    }
+
+    private async _getAuthorizationHeader() {
+        const value = await core.Supplier.get(this.options.apiKey);
+        if (value != null) {
+            return `ApiKey ${value}`;
+        }
+
+        return undefined;
     }
 }

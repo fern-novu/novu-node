@@ -12,7 +12,7 @@ import * as errors from "../../../../errors";
 export declare namespace Topics {
     interface Options {
         environment: environments.NovuEnvironment | string;
-        token?: core.Supplier<core.BearerToken | undefined>;
+        apiKey: core.Supplier<string>;
     }
 }
 
@@ -41,15 +41,16 @@ export class Topics {
             url: urlJoin(this.options.environment, "/v1/topics"),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
             queryParameters: _queryParams,
         });
         if (_response.ok) {
-            return await serializers.FilterTopicsResponseDto.parseOrThrow(
-                _response.body as serializers.FilterTopicsResponseDto.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.FilterTopicsResponseDto.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -82,9 +83,9 @@ export class Topics {
             url: urlJoin(this.options.environment, "/v1/topics"),
             method: "POST",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
-            body: await serializers.CreateTopicRequestDto.jsonOrThrow(request),
+            body: await serializers.CreateTopicRequestDto.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
         });
         if (_response.ok) {
             return;
@@ -120,9 +121,9 @@ export class Topics {
             url: urlJoin(this.options.environment, `/v1/topics/${topicKey}/subscribers`),
             method: "POST",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
-            body: await serializers.AddSubscribersRequestDto.jsonOrThrow(request),
+            body: await serializers.AddSubscribersRequestDto.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
         });
         if (_response.ok) {
             return;
@@ -158,9 +159,11 @@ export class Topics {
             url: urlJoin(this.options.environment, `/v1/topics/${topicKey}/subscribers/removal`),
             method: "POST",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
-            body: await serializers.RemoveSubscribersRequestDto.jsonOrThrow(request),
+            body: await serializers.RemoveSubscribersRequestDto.jsonOrThrow(request, {
+                unrecognizedObjectKeys: "strip",
+            }),
         });
         if (_response.ok) {
             return;
@@ -196,14 +199,15 @@ export class Topics {
             url: urlJoin(this.options.environment, `/v1/topics/${topicKey}`),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
         });
         if (_response.ok) {
-            return await serializers.GetTopicResponseDto.parseOrThrow(
-                _response.body as serializers.GetTopicResponseDto.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.GetTopicResponseDto.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -236,15 +240,16 @@ export class Topics {
             url: urlJoin(this.options.environment, `/v1/topics/${topicKey}`),
             method: "PATCH",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
-            body: await serializers.RenameTopicRequestDto.jsonOrThrow(request),
+            body: await serializers.RenameTopicRequestDto.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
         });
         if (_response.ok) {
-            return await serializers.RenameTopicResponseDto.parseOrThrow(
-                _response.body as serializers.RenameTopicResponseDto.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.RenameTopicResponseDto.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -267,5 +272,14 @@ export class Topics {
                     message: _response.error.errorMessage,
                 });
         }
+    }
+
+    private async _getAuthorizationHeader() {
+        const value = await core.Supplier.get(this.options.apiKey);
+        if (value != null) {
+            return `ApiKey ${value}`;
+        }
+
+        return undefined;
     }
 }

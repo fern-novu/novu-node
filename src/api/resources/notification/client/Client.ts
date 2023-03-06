@@ -12,7 +12,7 @@ import * as errors from "../../../../errors";
 export declare namespace Notification {
     interface Options {
         environment: environments.NovuEnvironment | string;
-        token?: core.Supplier<core.BearerToken | undefined>;
+        apiKey: core.Supplier<string>;
     }
 }
 
@@ -37,15 +37,16 @@ export class Notification {
             url: urlJoin(this.options.environment, "/v1/notifications"),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
             queryParameters: _queryParams,
         });
         if (_response.ok) {
-            return await serializers.ActivitiesResponseDto.parseOrThrow(
-                _response.body as serializers.ActivitiesResponseDto.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.ActivitiesResponseDto.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -75,14 +76,15 @@ export class Notification {
             url: urlJoin(this.options.environment, "/v1/notifications/stats"),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
         });
         if (_response.ok) {
-            return await serializers.ActivityStatsResponseDto.parseOrThrow(
-                _response.body as serializers.ActivityStatsResponseDto.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.ActivityStatsResponseDto.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -120,15 +122,16 @@ export class Notification {
             url: urlJoin(this.options.environment, "/v1/notifications/graph/stats"),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
             queryParameters: _queryParams,
         });
         if (_response.ok) {
-            return await serializers.notification.getNotificationGraphStats.Response.parseOrThrow(
-                _response.body as serializers.notification.getNotificationGraphStats.Response.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.notification.getNotificationGraphStats.Response.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -158,14 +161,15 @@ export class Notification {
             url: urlJoin(this.options.environment, `/v1/notifications/${notificationId}`),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
         });
         if (_response.ok) {
-            return await serializers.ActivityNotificationResponseDto.parseOrThrow(
-                _response.body as serializers.ActivityNotificationResponseDto.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.ActivityNotificationResponseDto.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -188,5 +192,14 @@ export class Notification {
                     message: _response.error.errorMessage,
                 });
         }
+    }
+
+    private async _getAuthorizationHeader() {
+        const value = await core.Supplier.get(this.options.apiKey);
+        if (value != null) {
+            return `ApiKey ${value}`;
+        }
+
+        return undefined;
     }
 }

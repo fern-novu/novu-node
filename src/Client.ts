@@ -27,7 +27,7 @@ import { Messages } from "./api/resources/messages/client/Client";
 export declare namespace NovuClient {
     interface Options {
         environment: environments.NovuEnvironment | string;
-        token?: core.Supplier<core.BearerToken | undefined>;
+        apiKey: core.Supplier<string>;
     }
 }
 
@@ -46,9 +46,9 @@ export class NovuClient {
             url: urlJoin(this.options.environment, "/v1/events/trigger"),
             method: "POST",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
-            body: await serializers.TriggerEventRequestDto.jsonOrThrow(request),
+            body: await serializers.TriggerEventRequestDto.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
         });
         if (_response.ok) {
             return;
@@ -87,9 +87,9 @@ export class NovuClient {
             url: urlJoin(this.options.environment, "/v1/events/trigger/bulk"),
             method: "POST",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
-            body: await serializers.BulkTriggerEventDto.jsonOrThrow(request),
+            body: await serializers.BulkTriggerEventDto.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
         });
         if (_response.ok) {
             return;
@@ -126,9 +126,11 @@ export class NovuClient {
             url: urlJoin(this.options.environment, "/v1/events/trigger/broadcast"),
             method: "POST",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
-            body: await serializers.TriggerEventToAllRequestDto.jsonOrThrow(request),
+            body: await serializers.TriggerEventToAllRequestDto.jsonOrThrow(request, {
+                unrecognizedObjectKeys: "strip",
+            }),
         });
         if (_response.ok) {
             return;
@@ -244,5 +246,14 @@ export class NovuClient {
 
     public get messages(): Messages {
         return (this._messages ??= new Messages(this.options));
+    }
+
+    private async _getAuthorizationHeader() {
+        const value = await core.Supplier.get(this.options.apiKey);
+        if (value != null) {
+            return `ApiKey ${value}`;
+        }
+
+        return undefined;
     }
 }

@@ -11,7 +11,7 @@ import * as errors from "../../../../errors";
 export declare namespace Events {
     interface Options {
         environment: environments.NovuEnvironment | string;
-        token?: core.Supplier<core.BearerToken | undefined>;
+        apiKey: core.Supplier<string>;
     }
 }
 
@@ -29,14 +29,15 @@ export class Events {
             url: urlJoin(this.options.environment, `/v1/events/trigger/${transactionId}`),
             method: "DELETE",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
         });
         if (_response.ok) {
-            return await serializers.events.cancelEvent.Response.parseOrThrow(
-                _response.body as serializers.events.cancelEvent.Response.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.events.cancelEvent.Response.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -59,5 +60,14 @@ export class Events {
                     message: _response.error.errorMessage,
                 });
         }
+    }
+
+    private async _getAuthorizationHeader() {
+        const value = await core.Supplier.get(this.options.apiKey);
+        if (value != null) {
+            return `ApiKey ${value}`;
+        }
+
+        return undefined;
     }
 }

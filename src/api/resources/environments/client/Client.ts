@@ -12,7 +12,7 @@ import * as errors from "../../../../errors";
 export declare namespace Environments {
     interface Options {
         environment: environments.NovuEnvironment | string;
-        token?: core.Supplier<core.BearerToken | undefined>;
+        apiKey: core.Supplier<string>;
     }
 }
 
@@ -24,14 +24,15 @@ export class Environments {
             url: urlJoin(this.options.environment, "/v1/environments/me"),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
         });
         if (_response.ok) {
-            return await serializers.EnvironmentResponseDto.parseOrThrow(
-                _response.body as serializers.EnvironmentResponseDto.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.EnvironmentResponseDto.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -61,14 +62,15 @@ export class Environments {
             url: urlJoin(this.options.environment, "/v1/environments"),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
         });
         if (_response.ok) {
-            return await serializers.environments.getAll.Response.parseOrThrow(
-                _response.body as serializers.environments.getAll.Response.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.environments.getAll.Response.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -98,9 +100,11 @@ export class Environments {
             url: urlJoin(this.options.environment, "/v1/environments"),
             method: "POST",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
-            body: await serializers.CreateEnvironmentRequestDto.jsonOrThrow(request),
+            body: await serializers.CreateEnvironmentRequestDto.jsonOrThrow(request, {
+                unrecognizedObjectKeys: "strip",
+            }),
         });
         if (_response.ok) {
             return;
@@ -133,9 +137,11 @@ export class Environments {
             url: urlJoin(this.options.environment, `/v1/environments/${environmentId}`),
             method: "PUT",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
-            body: await serializers.UpdateEnvironmentRequestDto.jsonOrThrow(request),
+            body: await serializers.UpdateEnvironmentRequestDto.jsonOrThrow(request, {
+                unrecognizedObjectKeys: "strip",
+            }),
         });
         if (_response.ok) {
             return;
@@ -168,14 +174,15 @@ export class Environments {
             url: urlJoin(this.options.environment, "/v1/environments/api-keys"),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
         });
         if (_response.ok) {
-            return await serializers.environments.getApiKeys.Response.parseOrThrow(
-                _response.body as serializers.environments.getApiKeys.Response.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.environments.getApiKeys.Response.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -205,14 +212,15 @@ export class Environments {
             url: urlJoin(this.options.environment, "/v1/environments/api-keys/regenerate"),
             method: "POST",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
         });
         if (_response.ok) {
-            return await serializers.environments.regenerateApiKeys.Response.parseOrThrow(
-                _response.body as serializers.environments.regenerateApiKeys.Response.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.environments.regenerateApiKeys.Response.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -244,15 +252,18 @@ export class Environments {
             url: urlJoin(this.options.environment, "/v1/environments/widget/settings"),
             method: "PUT",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
-            body: await serializers.UpdateWidgetSettingsRequestDto.jsonOrThrow(request),
+            body: await serializers.UpdateWidgetSettingsRequestDto.jsonOrThrow(request, {
+                unrecognizedObjectKeys: "strip",
+            }),
         });
         if (_response.ok) {
-            return await serializers.EnvironmentResponseDto.parseOrThrow(
-                _response.body as serializers.EnvironmentResponseDto.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.EnvironmentResponseDto.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -275,5 +286,14 @@ export class Environments {
                     message: _response.error.errorMessage,
                 });
         }
+    }
+
+    private async _getAuthorizationHeader() {
+        const value = await core.Supplier.get(this.options.apiKey);
+        if (value != null) {
+            return `ApiKey ${value}`;
+        }
+
+        return undefined;
     }
 }

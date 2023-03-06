@@ -12,7 +12,7 @@ import * as errors from "../../../../errors";
 export declare namespace Changes {
     interface Options {
         environment: environments.NovuEnvironment | string;
-        token?: core.Supplier<core.BearerToken | undefined>;
+        apiKey: core.Supplier<string>;
     }
 }
 
@@ -35,15 +35,16 @@ export class Changes {
             url: urlJoin(this.options.environment, "/v1/changes"),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
             queryParameters: _queryParams,
         });
         if (_response.ok) {
-            return await serializers.ChangesResponseDto.parseOrThrow(
-                _response.body as serializers.ChangesResponseDto.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.ChangesResponseDto.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -73,14 +74,15 @@ export class Changes {
             url: urlJoin(this.options.environment, "/v1/changes/count"),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
         });
         if (_response.ok) {
-            return await serializers.changes.getCount.Response.parseOrThrow(
-                _response.body as serializers.changes.getCount.Response.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.changes.getCount.Response.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -110,7 +112,7 @@ export class Changes {
             url: urlJoin(this.options.environment, "/v1/changes/bulk/apply"),
             method: "POST",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
         });
         if (_response.ok) {
@@ -144,7 +146,7 @@ export class Changes {
             url: urlJoin(this.options.environment, `/v1/changes/${changeId}/apply`),
             method: "POST",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
         });
         if (_response.ok) {
@@ -171,5 +173,14 @@ export class Changes {
                     message: _response.error.errorMessage,
                 });
         }
+    }
+
+    private async _getAuthorizationHeader() {
+        const value = await core.Supplier.get(this.options.apiKey);
+        if (value != null) {
+            return `ApiKey ${value}`;
+        }
+
+        return undefined;
     }
 }

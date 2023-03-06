@@ -12,7 +12,7 @@ import * as errors from "../../../../errors";
 export declare namespace Integrations {
     interface Options {
         environment: environments.NovuEnvironment | string;
-        token?: core.Supplier<core.BearerToken | undefined>;
+        apiKey: core.Supplier<string>;
     }
 }
 
@@ -24,14 +24,15 @@ export class Integrations {
             url: urlJoin(this.options.environment, "/v1/integrations"),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
         });
         if (_response.ok) {
-            return await serializers.integrations.getAll.Response.parseOrThrow(
-                _response.body as serializers.integrations.getAll.Response.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.integrations.getAll.Response.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -61,9 +62,11 @@ export class Integrations {
             url: urlJoin(this.options.environment, "/v1/integrations"),
             method: "POST",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
-            body: await serializers.CreateIntegrationRequestDto.jsonOrThrow(request),
+            body: await serializers.CreateIntegrationRequestDto.jsonOrThrow(request, {
+                unrecognizedObjectKeys: "strip",
+            }),
         });
         if (_response.ok) {
             return;
@@ -96,14 +99,15 @@ export class Integrations {
             url: urlJoin(this.options.environment, "/v1/integrations/active"),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
         });
         if (_response.ok) {
-            return await serializers.integrations.getActive.Response.parseOrThrow(
-                _response.body as serializers.integrations.getActive.Response.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.integrations.getActive.Response.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -133,7 +137,7 @@ export class Integrations {
             url: urlJoin(this.options.environment, `/v1/integrations/webhook/provider/${providerId}/status`),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
         });
         if (_response.ok) {
@@ -170,15 +174,18 @@ export class Integrations {
             url: urlJoin(this.options.environment, `/v1/integrations/${integrationId}`),
             method: "PUT",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
-            body: await serializers.UpdateIntegrationRequestDto.jsonOrThrow(request),
+            body: await serializers.UpdateIntegrationRequestDto.jsonOrThrow(request, {
+                unrecognizedObjectKeys: "strip",
+            }),
         });
         if (_response.ok) {
-            return await serializers.IntegrationResponseDto.parseOrThrow(
-                _response.body as serializers.IntegrationResponseDto.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.IntegrationResponseDto.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -208,14 +215,15 @@ export class Integrations {
             url: urlJoin(this.options.environment, `/v1/integrations/${integrationId}`),
             method: "DELETE",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
         });
         if (_response.ok) {
-            return await serializers.integrations.delete.Response.parseOrThrow(
-                _response.body as serializers.integrations.delete.Response.Raw,
-                { allowUnknownKeys: true }
-            );
+            return await serializers.integrations.delete.Response.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
         }
 
         if (_response.error.reason === "status-code") {
@@ -245,7 +253,7 @@ export class Integrations {
             url: urlJoin(this.options.environment, `/v1/integrations/${channelType}/limit`),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
         });
         if (_response.ok) {
@@ -279,7 +287,7 @@ export class Integrations {
             url: urlJoin(this.options.environment, "/v1/integrations/in-app/status"),
             method: "GET",
             headers: {
-                Authorization: core.BearerToken.toAuthorizationHeader(await core.Supplier.get(this.options.token)),
+                Authorization: await this._getAuthorizationHeader(),
             },
         });
         if (_response.ok) {
@@ -306,5 +314,14 @@ export class Integrations {
                     message: _response.error.errorMessage,
                 });
         }
+    }
+
+    private async _getAuthorizationHeader() {
+        const value = await core.Supplier.get(this.options.apiKey);
+        if (value != null) {
+            return `ApiKey ${value}`;
+        }
+
+        return undefined;
     }
 }
