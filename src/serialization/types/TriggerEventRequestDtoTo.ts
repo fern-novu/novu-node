@@ -9,7 +9,7 @@ import * as core from "../../core";
 export const TriggerEventRequestDtoTo: core.serialization.Schema<
     serializers.TriggerEventRequestDtoTo.Raw,
     Novu.TriggerEventRequestDtoTo
-> = core.serialization.unknown();
+> = core.serialization.any();
 
 export declare namespace TriggerEventRequestDtoTo {
     type Raw = unknown;

@@ -8,4 +8,5 @@ import { TopicPayloadDto } from "./TopicPayloadDto";
 export type TriggerEventRequestDtoTo =
     | string
     | SubscriberPayloadDto
-    | (string | SubscriberPayloadDto | TopicPayloadDto)[];
+    | (string | SubscriberPayloadDto | TopicPayloadDto)[]
+    | undefined;
