@@ -4,3 +4,4 @@ README.md
 static
 src/api/types/TriggerEventRequestDtoTo.ts
 src/serialization/types/TriggerEventRequestDtoTo.ts
+src/Client.ts

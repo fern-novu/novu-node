@@ -41,14 +41,25 @@ export class NovuClient {
      *     Additional information can be passed according the body interface below.
      *
      */
-    public async trigger(request: Novu.TriggerEventRequestDto): Promise<void> {
+    public async trigger(eventId: string, data: Omit<Novu.TriggerEventRequestDto, "name">): Promise<void> {
         const _response = await core.fetcher({
             url: urlJoin(this.options.environment, "/v1/events/trigger"),
             method: "POST",
             headers: {
                 Authorization: await this._getAuthorizationHeader(),
             },
-            body: await serializers.TriggerEventRequestDto.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            body: await serializers.TriggerEventRequestDto.jsonOrThrow(
+                {
+                    name: eventId,
+                    to: data.to,
+                    payload: {
+                        ...data?.payload,
+                    },
+                    overrides: data.overrides || {},
+                    actor: data.actor,
+                },
+                { unrecognizedObjectKeys: "strip" }
+            ),
         });
         if (_response.ok) {
             return;
