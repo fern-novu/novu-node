@@ -21,8 +21,7 @@ const novu = new NovuClient({
   apiKey: 'NOVU_API_KEY'
 });
 
-await novu.trigger({
-  name: '<REPLACE_WITH_EVENT_NAME_FROM_ADMIN_PANEL>',
+await novu.trigger('<REPLACE_WITH_EVENT_NAME_FROM_ADMIN_PANEL>', {
   to: {
     subscriberId: '<USER_IDENTIFIER>',
     email: 'test@email.com',
